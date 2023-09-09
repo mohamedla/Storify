@@ -42,7 +42,10 @@ namespace StorifyAPI.Controllers.Matrial
         {
             try
             {
-                return Ok(_context.matrialTypes.Find(id));
+                var type = _context.matrialTypes.Find(id);
+                if(type == null)
+                    return NotFound();
+                return Ok(type);
             }
             catch (Exception ex)
             {

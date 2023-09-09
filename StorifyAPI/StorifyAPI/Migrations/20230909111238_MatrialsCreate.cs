@@ -5,7 +5,7 @@
 namespace StorifyAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class intialCreate : Migration
+    public partial class MatrialsCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,7 +31,7 @@ namespace StorifyAPI.Migrations
                 {
                     MGroupID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    matrialTypeID = table.Column<int>(type: "int", nullable: false),
+                    MTypeID = table.Column<int>(type: "int", nullable: false),
                     Code = table.Column<string>(type: "NVARCHAR(100)", maxLength: 100, nullable: false),
                     GlobalName = table.Column<string>(type: "NVARCHAR(200)", maxLength: 200, nullable: false),
                     LocalName = table.Column<string>(type: "NVARCHAR(200)", maxLength: 200, nullable: false)
@@ -40,8 +40,8 @@ namespace StorifyAPI.Migrations
                 {
                     table.PrimaryKey("PK_MGroups", x => x.MGroupID);
                     table.ForeignKey(
-                        name: "FK_MGroups_MTypes_matrialTypeID",
-                        column: x => x.matrialTypeID,
+                        name: "FK_MGroups_MTypes_MTypeID",
+                        column: x => x.MTypeID,
                         principalTable: "MTypes",
                         principalColumn: "MTypeID",
                         onDelete: ReferentialAction.Cascade);
@@ -53,7 +53,7 @@ namespace StorifyAPI.Migrations
                 {
                     MItemID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    matrialGroupID = table.Column<int>(type: "int", nullable: false),
+                    MGroupID = table.Column<int>(type: "int", nullable: false),
                     Code = table.Column<string>(type: "NVARCHAR(100)", maxLength: 100, nullable: false),
                     GlobalName = table.Column<string>(type: "NVARCHAR(200)", maxLength: 200, nullable: false),
                     LocalName = table.Column<string>(type: "NVARCHAR(200)", maxLength: 200, nullable: false)
@@ -62,8 +62,8 @@ namespace StorifyAPI.Migrations
                 {
                     table.PrimaryKey("PK_MItems", x => x.MItemID);
                     table.ForeignKey(
-                        name: "FK_MItems_MGroups_matrialGroupID",
-                        column: x => x.matrialGroupID,
+                        name: "FK_MItems_MGroups_MGroupID",
+                        column: x => x.MGroupID,
                         principalTable: "MGroups",
                         principalColumn: "MGroupID",
                         onDelete: ReferentialAction.Cascade);
@@ -76,9 +76,9 @@ namespace StorifyAPI.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_MGroups_matrialTypeID",
+                name: "IX_MGroups_MTypeID",
                 table: "MGroups",
-                column: "matrialTypeID");
+                column: "MTypeID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MItems_Code",
@@ -87,9 +87,9 @@ namespace StorifyAPI.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_MItems_matrialGroupID",
+                name: "IX_MItems_MGroupID",
                 table: "MItems",
-                column: "matrialGroupID");
+                column: "MGroupID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MTypes_Code",

@@ -9,6 +9,6 @@ namespace StorifyAPI.Models.Matrial
         [Column(name: "MTypeID")]
         public int ID { get; set; }
 
-        public ICollection<MatrialGroup>? matrialGroups { get; set; }
+        public virtual ICollection<MatrialGroup>? matrialGroups { get; set; }
     }
 }

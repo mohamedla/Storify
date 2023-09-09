@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8gB1yQCV1KI9GPMTP3tw+uODQCq2TiL3jb0ANxRXOa49O9NjUgexAy6x6GFd3eGslGaIsbvNRKc2z0IdPEiNQw==",
+  "dgSpecHash": "EJxVu31mKVT76L5KHgC+NTDIKECeZ+omStyDz6zyHqno5CBUZEiKJLPkTcSb/sE0DshHMKJuk2Jmhxs5IMiLlw==",
   "success": true,
-  "projectFilePath": "D:\\WorkSpace\\Repos\\GitHup\\Storify\\Storify API\\StorifyAPI\\StorifyAPI.csproj",
+  "projectFilePath": "D:\\WorkSpace\\Repos\\GitHup\\Storify\\StorifyAPI\\StorifyAPI\\StorifyAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Administrator\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",

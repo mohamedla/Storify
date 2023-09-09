@@ -11,8 +11,8 @@ using StorifyAPI.Context;
 namespace StorifyAPI.Migrations
 {
     [DbContext(typeof(StorifyContext))]
-    [Migration("20230909065417_intialCreate")]
-    partial class intialCreate
+    [Migration("20230909111238_MatrialsCreate")]
+    partial class MatrialsCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,15 +48,16 @@ namespace StorifyAPI.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("NVARCHAR");
 
-                    b.Property<int>("matrialTypeID")
-                        .HasColumnType("int");
+                    b.Property<int>("TypeID")
+                        .HasColumnType("int")
+                        .HasColumnName("MTypeID");
 
                     b.HasKey("ID");
 
                     b.HasIndex("Code")
                         .IsUnique();
 
-                    b.HasIndex("matrialTypeID");
+                    b.HasIndex("TypeID");
 
                     b.ToTable("MGroups", (string)null);
                 });
@@ -80,20 +81,21 @@ namespace StorifyAPI.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("NVARCHAR");
 
+                    b.Property<int>("GroupID")
+                        .HasColumnType("int")
+                        .HasColumnName("MGroupID");
+
                     b.Property<string>("LocalName")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("NVARCHAR");
-
-                    b.Property<int>("matrialGroupID")
-                        .HasColumnType("int");
 
                     b.HasKey("ID");
 
                     b.HasIndex("Code")
                         .IsUnique();
 
-                    b.HasIndex("matrialGroupID");
+                    b.HasIndex("GroupID");
 
                     b.ToTable("MItems", (string)null);
                 });
@@ -134,7 +136,7 @@ namespace StorifyAPI.Migrations
                 {
                     b.HasOne("StorifyAPI.Models.Matrial.MatrialType", "matrialType")
                         .WithMany("matrialGroups")
-                        .HasForeignKey("matrialTypeID")
+                        .HasForeignKey("TypeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -145,7 +147,7 @@ namespace StorifyAPI.Migrations
                 {
                     b.HasOne("StorifyAPI.Models.Matrial.MatrialGroup", "matrialGroup")
                         .WithMany("matrialItems")
-                        .HasForeignKey("matrialGroupID")
+                        .HasForeignKey("GroupID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
