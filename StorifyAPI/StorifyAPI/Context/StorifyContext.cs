@@ -11,6 +11,7 @@ namespace StorifyAPI.Context
         public virtual DbSet<MatrialType> matrialTypes { get; set; }
         public virtual DbSet<MatrialGroup> matrialGroups { get; set; }
         public virtual DbSet<MatrialItem> matrialItems { get; set; }
+        public virtual DbSet<MatrialUnit> matrialUnits { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -42,6 +43,39 @@ namespace StorifyAPI.Context
                 .HasOne(item => item.matrialGroup)
                 .WithMany(group => group.matrialItems)
                 .HasForeignKey(item => item.GroupID);
+            //modelBuilder.Entity<MatrialItem>()
+            //    .HasMany(item => item.matrialUnits)
+            //    .WithMany(unit => unit.matrialItems);
+                //.UsingEntity<MatrialItemUnit>(
+                //    "MItemUnit",
+                //   iu => iu.HasOne(i => i.MatrialUnit).WithMany().HasForeignKey(iu => iu.UnitID).HasPrincipalKey(nameof(MatrialUnit.ID)),
+                //   ui => ui.HasOne(u => u.MatrialItem).WithMany().HasForeignKey(iu => iu.ItemID).HasPrincipalKey(nameof(MatrialItem.ID)),
+                //   miu => miu.HasKey("UnitID", "ItemID")
+                //);
+
+            modelBuilder.Entity<MatrialUnit>()
+                .ToTable("MUnits")
+                .HasIndex(unit => unit.Code)
+                .IsUnique();
+
+            modelBuilder.Entity<MatrialItemUnit>()
+                .ToTable("MItemUnit");
+            modelBuilder.Entity<MatrialItemUnit>()
+                .HasOne(iu => iu.MatrialUnit)
+                .WithMany()
+                .HasForeignKey(iu => iu.UnitID);
+            modelBuilder.Entity<MatrialItemUnit>()
+                .HasOne(iu => iu.MatrialItem)
+                .WithMany()
+                .HasForeignKey(iu => iu.ItemID);
+
+            modelBuilder.Entity<MatrialItemUnit>()
+                .HasOne(iu => iu.CMatrialUnit)
+                .WithMany()
+                .HasForeignKey(iu => iu.CUnitID);
+
+            modelBuilder.Entity<MatrialItemUnit>()
+                .HasKey(iu => new { iu.UnitID, iu.ItemID });
         }
     }
 }
