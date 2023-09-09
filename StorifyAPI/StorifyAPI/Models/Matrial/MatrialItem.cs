@@ -10,6 +10,7 @@ namespace StorifyAPI.Models.Matrial
         public int ID { get; set; }
 
         [Column(name: "MGroupID")]
+        [Required]
         public int GroupID { get; set; }
         public virtual MatrialGroup? matrialGroup { get; set; }
     }
