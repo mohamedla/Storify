@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using StorifyAPI.Context;
 using Microsoft.EntityFrameworkCore;
 using StorifyAPI.Models.Matrial;
+using StorifyAPI.Repositories.MatrialRepo;
 
 namespace StorifyAPI.Controllers.Matrial
 {
@@ -15,11 +16,11 @@ namespace StorifyAPI.Controllers.Matrial
 
     public class MatrialTypesController : ControllerBase
     {
-        private StorifyContext _context { get; }
+        private MTypeRepository _TypeRepository;
 
         public MatrialTypesController(StorifyContext context)
         {
-            _context = context;
+            _TypeRepository = new MTypeRepository(context);
         }
 
         // GET -> api/MatrialTypes
@@ -28,7 +29,7 @@ namespace StorifyAPI.Controllers.Matrial
         {
             try
             {
-                return Ok(await _context.matrialTypes.ToListAsync());
+                return Ok(await _TypeRepository.GetAllAsync());
             }
             catch (Exception ex) {
                 return BadRequest(ex.Message);
@@ -38,11 +39,11 @@ namespace StorifyAPI.Controllers.Matrial
 
         // GET -> api/MatrialTypes/{id}
         [HttpGet("{id}")]
-        public IActionResult GetTypeByID(int id)
+        public async Task<IActionResult> GetTypeByID(int id)
         {
             try
             {
-                var type = _context.matrialTypes.Find(id);
+                var type = await _TypeRepository.GetByIdAsync(id);
                 if(type == null)
                     return NotFound();
                 return Ok(type);
@@ -55,19 +56,18 @@ namespace StorifyAPI.Controllers.Matrial
 
         // Post -> api/MatrialTypes
         [HttpPost("")]
-        public IActionResult AddType([FromBody] MatrialType MType)
+        public async Task<IActionResult> AddType([FromBody] MatrialType MType)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             try
             {
-                _context.matrialTypes.Add(MType);
-                _context.SaveChanges();
+                await _TypeRepository.AddAsync(ref MType);
                 return CreatedAtRoute("", new { id = MType.ID }, MType);
             }
             catch (Exception ex)
             {
-                if (isCodeExist(MType.Code))
+                if (_TypeRepository.isCodeExist(MType.Code))
                     return Conflict("The Code Already Exist");
                 return BadRequest(ex.Message);
             }
@@ -76,9 +76,9 @@ namespace StorifyAPI.Controllers.Matrial
 
         // Put -> api/MatrialTypes/{id}
         [HttpPut("{id}")]
-        public IActionResult EditType(int id, [FromBody] MatrialType MType)
+        public async Task<IActionResult> EditType(int id, [FromBody] MatrialType MType)
         {
-            if (!isIDExist(id))
+            if (!_TypeRepository.isIDExist(id))
                 return NotFound("id Not Found");
 
             if (!ModelState.IsValid)
@@ -86,13 +86,12 @@ namespace StorifyAPI.Controllers.Matrial
 
             try
             {
-                _context.Entry(MType).State = EntityState.Modified;
-                _context.SaveChanges();
+                await _TypeRepository.UpdateAsync(MType);
                 return CreatedAtRoute("", new { id = MType.ID }, MType);
             }
             catch (Exception ex)
             {
-                if (isCodeExist(MType.Code))
+                if (_TypeRepository.isCodeExist(MType.Code))
                     return Conflict("The Code Already Exist");
                 return BadRequest(ex.Message);
             }
@@ -101,30 +100,21 @@ namespace StorifyAPI.Controllers.Matrial
 
         // Delete -> api/MatrialTypes/{id}
         [HttpDelete("{id}")]
-        public IActionResult DeleteTypeByID(int id)
+        public async Task<IActionResult> DeleteTypeByID(int id)
         {
-            var type = _context.matrialTypes.Find(id);
+            var type = await _TypeRepository.GetByIdAsync(id);
 
             if (type == null)
                 return NotFound("No Type Match The ID");
             try
             {
-                _context.matrialTypes.Remove(type);
-                _context.SaveChanges();
+                await _TypeRepository.DeleteAsync(type);
                 return Ok("Type Removed");
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-        }
-        private bool isCodeExist(string Code)
-        {
-            return _context.matrialTypes.Count(Type => Type.Code == Code) > 0;
-        }
-        private bool isIDExist(int id)
-        {
-            return _context.matrialTypes.Count(Type => Type.ID == id) > 0;
         }
     }
 }
