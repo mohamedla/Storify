@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "4OuaQNUMiUrTvpo86EtyO3Sn3bXxIWqR6HcfHsWkC9E=",
+  "Source": "StorifyAPI",
+  "BasePath": "_content/StorifyAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
