@@ -5,6 +5,10 @@ namespace StorifyAPI.Models.Matrial
 {
     public class MatrialItemUnit
     {
+        [Column(name: "MItemUnitID")]
+        public int ID { get; set; }
+
+
         [Column(name: "MItemID")]
         [Required]
         public int ItemID { get; set; }
@@ -27,9 +31,9 @@ namespace StorifyAPI.Models.Matrial
         [Required]
         public bool isMain { get; set; } = false;
 
-        public virtual MatrialItem MatrialItem { get; set; }
-        public virtual MatrialUnit MatrialUnit { get; set; }
-        public virtual MatrialUnit CMatrialUnit { get; set; }
+        public virtual MatrialItem? MatrialItem { get; set; }
+        public virtual MatrialUnit? MatrialUnit { get; set; }
+        public virtual MatrialUnit? CMatrialUnit { get; set; }
 
     }
 }

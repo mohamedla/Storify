@@ -5,7 +5,7 @@
 namespace StorifyAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class MatrialCreate : Migration
+    public partial class MartrialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -114,10 +114,11 @@ namespace StorifyAPI.Migrations
                 {
                     MItemID = table.Column<int>(type: "int", nullable: false),
                     MUnitID = table.Column<int>(type: "int", nullable: false),
+                    MItemUnitID = table.Column<int>(type: "int", nullable: false),
                     UnitPrice = table.Column<decimal>(type: "Money", nullable: false),
                     CFactor = table.Column<int>(type: "int", nullable: false),
                     MCUnitID = table.Column<int>(type: "int", nullable: false),
-                    isMain = table.Column<bool>(type: "bit", nullable: false)
+                    isMain = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -127,19 +128,19 @@ namespace StorifyAPI.Migrations
                         column: x => x.MItemID,
                         principalTable: "MItems",
                         principalColumn: "MItemID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_MItemUnit_MUnits_MCUnitID",
                         column: x => x.MCUnitID,
                         principalTable: "MUnits",
                         principalColumn: "MUnitID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_MItemUnit_MUnits_MUnitID",
                         column: x => x.MUnitID,
                         principalTable: "MUnits",
                         principalColumn: "MUnitID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

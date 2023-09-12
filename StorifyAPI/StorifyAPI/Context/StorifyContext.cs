@@ -43,9 +43,9 @@ namespace StorifyAPI.Context
                 .HasOne(item => item.matrialGroup)
                 .WithMany(group => group.matrialItems)
                 .HasForeignKey(item => item.GroupID);
-            //modelBuilder.Entity<MatrialItem>()
-            //    .HasMany(item => item.matrialUnits)
-            //    .WithMany(unit => unit.matrialItems);
+            modelBuilder.Entity<MatrialItem>()
+                .HasMany(item => item.matrialUnits)
+                .WithMany(unit => unit.matrialItems);
                 //.UsingEntity<MatrialItemUnit>(
                 //    "MItemUnit",
                 //   iu => iu.HasOne(i => i.MatrialUnit).WithMany().HasForeignKey(iu => iu.UnitID).HasPrincipalKey(nameof(MatrialUnit.ID)),
@@ -59,20 +59,32 @@ namespace StorifyAPI.Context
                 .IsUnique();
 
             modelBuilder.Entity<MatrialItemUnit>()
-                .ToTable("MItemUnit");
+                .ToTable("MItemUnit")
+                .HasKey("UnitID", "ItemID");
+
             modelBuilder.Entity<MatrialItemUnit>()
                 .HasOne(iu => iu.MatrialUnit)
-                .WithMany()
-                .HasForeignKey(iu => iu.UnitID);
+                .WithMany(u => u.matrialItemsUnit)
+                .HasForeignKey(iu => iu.UnitID)
+                .HasPrincipalKey(nameof(MatrialUnit.ID))
+                .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<MatrialItemUnit>()
                 .HasOne(iu => iu.MatrialItem)
-                .WithMany()
-                .HasForeignKey(iu => iu.ItemID);
+                .WithMany(i => i.matrialItemUnits)
+                .HasForeignKey(iu => iu.ItemID)
+                .HasPrincipalKey(nameof(MatrialItem.ID))
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<MatrialItemUnit>()
                 .HasOne(iu => iu.CMatrialUnit)
-                .WithMany()
-                .HasForeignKey(iu => iu.CUnitID);
+                .WithMany(u => u.CmatrialItemsUnit)
+                .HasForeignKey(iu => iu.CUnitID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<MatrialItemUnit>()
+                .Property(ItemUnit => ItemUnit.ID)
+                .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<MatrialItemUnit>()
                 .HasKey(iu => new { iu.UnitID, iu.ItemID });

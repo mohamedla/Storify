@@ -46,12 +46,12 @@ namespace StorifyAPI.Repositories.MatrialRepo
 
         public bool isCodeExist(string Code)
         {
-            return _context.Set<MatrialType>().Count(Group => Group.Code == Code) > 0;
+            return _context.Set<MatrialType>().Count(Type => Type.Code == Code) > 0;
         }
 
         public bool isIDExist(int id)
         {
-            return _context.Set<MatrialType>().Count(Group => Group.ID == id) > 0;
+            return _context.Set<MatrialType>().Count(Type => Type.ID == id) > 0;
         }
     }
 }

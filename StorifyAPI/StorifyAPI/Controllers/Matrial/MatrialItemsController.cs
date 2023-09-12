@@ -24,7 +24,7 @@ namespace StorifyAPI.Controllers.Matrial
             _itemRepository = new MItemRepository(context);
         }
 
-        // GET -> api/MatrialTypes
+        // GET -> api/MatrialItems
         [HttpGet("")]
         public async Task<IActionResult> GetGroups()
         {
@@ -52,7 +52,7 @@ namespace StorifyAPI.Controllers.Matrial
 
         }
 
-        // GET -> api/MatrialTypes/{id}
+        // GET -> api/MatrialItems/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetGroupByID(int id)
         {
@@ -69,7 +69,7 @@ namespace StorifyAPI.Controllers.Matrial
             }
         }
 
-        // Post -> api/MatrialTypes
+        // Post -> api/MatrialItems
         [HttpPost("")]
         public IActionResult AddGroup([FromBody] MatrialItem MGroup)
         {
@@ -90,7 +90,7 @@ namespace StorifyAPI.Controllers.Matrial
 
         }
 
-        // Put -> api/MatrialTypes/{id}
+        // Put -> api/MatrialItems/{id}
         [HttpPut("{id}")]
         public IActionResult EditGroup(int id, [FromBody] MatrialItem MGroup)
         {
@@ -117,18 +117,18 @@ namespace StorifyAPI.Controllers.Matrial
 
         }
 
-        // Delete -> api/MatrialTypes/{id}
+        // Delete -> api/MatrialItems/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGroupByID(int id)
         {
             var group = await _itemRepository.GetByIdAsync(id);
 
             if (group == null)
-                return NotFound("No Type Match The ID");
+                return NotFound("No Item Match The ID");
             try
             {
                 await _itemRepository.DeleteAsync(group);
-                return Ok("Group Removed");
+                return Ok("Item Removed");
             }
             catch (Exception ex)
             {

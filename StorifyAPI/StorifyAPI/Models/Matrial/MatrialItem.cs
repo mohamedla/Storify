@@ -10,6 +10,7 @@ namespace StorifyAPI.Models.Matrial
         public int ID { get; set; }
 
         public ICollection<MatrialUnit>? matrialUnits { get; set; }
+        public ICollection<MatrialItemUnit>? matrialItemUnits { get; set; }
 
         [Column(name: "MGroupID")]
         [Required]

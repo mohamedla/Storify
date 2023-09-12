@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StorifyAPI.Context;
 
@@ -10,9 +11,11 @@ using StorifyAPI.Context;
 namespace StorifyAPI.Migrations
 {
     [DbContext(typeof(StorifyContext))]
-    partial class StorifyContextModelSnapshot : ModelSnapshot
+    [Migration("20230912024503_MartrialCreate")]
+    partial class MartrialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,7 +36,7 @@ namespace StorifyAPI.Migrations
 
                     b.HasIndex("matrialUnitsID");
 
-                    b.ToTable("MatrialItemMatrialUnit", (string)null);
+                    b.ToTable("MatrialItemMatrialUnit");
                 });
 
             modelBuilder.Entity("StorifyAPI.Models.Matrial.MatrialGroup", b =>
@@ -130,11 +133,8 @@ namespace StorifyAPI.Migrations
                         .HasColumnName("MCUnitID");
 
                     b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("MItemUnitID");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<decimal>("UnitPrice")
                         .HasColumnType("Money");

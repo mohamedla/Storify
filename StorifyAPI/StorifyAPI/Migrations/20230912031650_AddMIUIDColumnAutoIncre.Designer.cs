@@ -11,8 +11,8 @@ using StorifyAPI.Context;
 namespace StorifyAPI.Migrations
 {
     [DbContext(typeof(StorifyContext))]
-    [Migration("20230909202312_MatrialCreate")]
-    partial class MatrialCreate
+    [Migration("20230912031650_AddMIUIDColumnAutoIncre")]
+    partial class AddMIUIDColumnAutoIncre
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -131,6 +131,13 @@ namespace StorifyAPI.Migrations
                     b.Property<int>("CUnitID")
                         .HasColumnType("int")
                         .HasColumnName("MCUnitID");
+
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("MItemUnitID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<decimal>("UnitPrice")
                         .HasColumnType("Money");
@@ -251,21 +258,21 @@ namespace StorifyAPI.Migrations
             modelBuilder.Entity("StorifyAPI.Models.Matrial.MatrialItemUnit", b =>
                 {
                     b.HasOne("StorifyAPI.Models.Matrial.MatrialUnit", "CMatrialUnit")
-                        .WithMany()
+                        .WithMany("CmatrialItemsUnit")
                         .HasForeignKey("CUnitID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("StorifyAPI.Models.Matrial.MatrialItem", "MatrialItem")
-                        .WithMany()
+                        .WithMany("matrialItemUnits")
                         .HasForeignKey("ItemID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("StorifyAPI.Models.Matrial.MatrialUnit", "MatrialUnit")
-                        .WithMany()
+                        .WithMany("matrialItemsUnit")
                         .HasForeignKey("UnitID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("CMatrialUnit");
@@ -280,9 +287,21 @@ namespace StorifyAPI.Migrations
                     b.Navigation("matrialItems");
                 });
 
+            modelBuilder.Entity("StorifyAPI.Models.Matrial.MatrialItem", b =>
+                {
+                    b.Navigation("matrialItemUnits");
+                });
+
             modelBuilder.Entity("StorifyAPI.Models.Matrial.MatrialType", b =>
                 {
                     b.Navigation("matrialGroups");
+                });
+
+            modelBuilder.Entity("StorifyAPI.Models.Matrial.MatrialUnit", b =>
+                {
+                    b.Navigation("CmatrialItemsUnit");
+
+                    b.Navigation("matrialItemsUnit");
                 });
 #pragma warning restore 612, 618
         }
