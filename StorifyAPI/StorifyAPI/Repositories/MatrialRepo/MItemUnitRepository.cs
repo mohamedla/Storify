@@ -32,8 +32,7 @@ namespace StorifyAPI.Repositories.MatrialRepo
 
         public Task UpdateAsync(MatrialItemUnit entity)
         {
-            _context.Entry(entity).State = EntityState.Modified;
-            // Ignore MatrialItemUnit Identity Column
+            _context.Update(entity);
             _context.Entry(entity).Property(MIU => MIU.ID).IsModified = false;
             _context.SaveChanges();
             return Task.CompletedTask;

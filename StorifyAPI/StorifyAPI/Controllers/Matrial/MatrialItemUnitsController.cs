@@ -78,8 +78,11 @@ namespace StorifyAPI.Controllers.Matrial
         [HttpPut("{id}")]
         public async Task<IActionResult> EditType(int id, [FromBody] MatrialItemUnit MItemUnit)
         {
-            if (!_itemUnitRepository.isIDExist(id))
-                return NotFound("id Not Found");
+            //var matrialItemUnitFromDb = await _itemUnitRepository.GetByIdAsync(id);
+            if (id != MItemUnit.ID) 
+                return BadRequest("ID Conflict");
+            if (_itemUnitRepository.isIDExist(id)) 
+                return NotFound("ID Not Found");
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

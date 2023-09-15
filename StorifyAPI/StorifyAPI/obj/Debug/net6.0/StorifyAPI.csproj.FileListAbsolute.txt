@@ -592,3 +592,11 @@ D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\obj\Debug\net6.0\refint\
 D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\obj\Debug\net6.0\StorifyAPI.pdb
 D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\obj\Debug\net6.0\StorifyAPI.genruntimeconfig.cache
 D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\obj\Debug\net6.0\ref\StorifyAPI.dll
+D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\Microsoft.Extensions.Identity.Core.dll
+D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll
+D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\StorifyAPI.staticwebassets.runtime.json
+D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.UI.dll
+D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\Microsoft.Extensions.FileProviders.Embedded.dll
