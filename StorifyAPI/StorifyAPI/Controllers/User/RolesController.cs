@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using StorifyAPI.Context;
 using StorifyAPI.Models.Employee;
 using StorifyAPI.Models.User.FormModels;
+using StorifyAPI.Repositories.UserRepo;
 using System.Data;
 
 namespace StorifyAPI.Controllers.User
@@ -15,18 +16,23 @@ namespace StorifyAPI.Controllers.User
     //[Authorize(Roles = RoleNames.admin)]
     public class RolesController : Controller
     {
-        private readonly IdentityContext _context;
+        private readonly RoleRepository _roleRepository;
 
         public RolesController(IdentityContext context)
         {
-            _context = context;
+            _roleRepository = new RoleRepository(context);
+        }
+        
+        private async Task<IActionResult> GetRoleList()
+        {
+            return Ok((from r in await _roleRepository.GetAllAsync() select new { r.Id, r.Name }));
         }
 
         [HttpGet("")]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> GetAll()
         {
-            return Ok(await  (from r in _context.Roles select new { r.Id , r.Name}).ToListAsync());
+            return await GetRoleList();
         }
 
         [HttpPost("")]
@@ -37,13 +43,14 @@ namespace StorifyAPI.Controllers.User
                 return BadRequest("Role Name Not Valid");
             try
             {
-                var roleChk = await _context.Roles.FirstOrDefaultAsync(r => r.NormalizedName == role.Name.ToUpper());
+                var roleChk = await _roleRepository.GetByNameAsync(role.Name);
+
                 if ( roleChk is not null)
                     return BadRequest("The Name Already Exist");
 
-                await _context.Roles.AddAsync(new IdentityRole { Name = role.Name.Trim(), NormalizedName = role.Name.Trim().ToUpper() });
-                _context.SaveChanges();
-                return Ok(await _context.Roles.ToListAsync());
+                await _roleRepository.AddAsync(role);
+
+                return await GetRoleList();
 
             }
             catch(Exception ex)
@@ -61,14 +68,13 @@ namespace StorifyAPI.Controllers.User
 
             try
             {
-                var roleChk = await _context.Roles.FirstOrDefaultAsync(r => r.NormalizedName == role.Name.ToUpper());
+                var roleChk = await _roleRepository.GetByNameAsync(role.Name);
 
                 if (roleChk is null)
                     return BadRequest("No Role With This Role");
 
-                _context.Roles.Remove(roleChk);
-                _context.SaveChanges();
-                return Ok(await _context.Roles.ToListAsync());
+                await _roleRepository.DeleteAsync(roleChk);
+                return await GetRoleList();
             }
             catch(Exception ex)
             {
