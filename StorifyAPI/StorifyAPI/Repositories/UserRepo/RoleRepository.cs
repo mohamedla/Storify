@@ -8,35 +8,33 @@ namespace StorifyAPI.Repositories.UserRepo
 {
     public class RoleRepository
     {
-        private readonly IdentityContext _context;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public RoleRepository(IdentityContext context)
+        public RoleRepository(RoleManager<IdentityRole> roleManager)
         {
-            _context = context;
+            _roleManager = roleManager;
         }
 
         public async Task<Task> AddAsync(RoleForm entity)
         {
-            await _context.Roles.AddAsync(new IdentityRole { Name = entity.Name.Trim(), NormalizedName = entity.Name.Trim().ToUpper() });
-            _context.SaveChanges();
+            await _roleManager.CreateAsync(new IdentityRole { Name = entity.Name.Trim(), NormalizedName = entity.Name.Trim().ToUpper() });
             return Task.CompletedTask;
         }
 
-        public Task DeleteAsync(IdentityRole entity)
+        public async Task<Task> DeleteAsync(IdentityRole entity)
         {
-            _context.Roles.Remove(entity);
-            _context.SaveChanges();
+            await _roleManager.DeleteAsync(entity);
             return Task.CompletedTask;
         }
 
         public async Task<IEnumerable<IdentityRole>> GetAllAsync()
         {
-            return await _context.Roles.ToListAsync();
+            return await _roleManager.Roles.ToListAsync();
         }
 
         public async Task<IdentityRole> GetByNameAsync(string name)
         {
-            return await _context.Roles.FirstOrDefaultAsync(r => r.NormalizedName == name.ToUpper());
+            return await _roleManager.Roles.FirstOrDefaultAsync(r => r.NormalizedName == name.ToUpper());
         }
 
         public Task UpdateAsync(IdentityRole entity)

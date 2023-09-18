@@ -18,14 +18,31 @@ namespace StorifyAPI.Repositories.UserRepo
             _userRolesRepository = new UserRolesRepository(userManager, roleManager);
         }
 
-        public async Task<Task> AddAsync(RoleForm entity)
+        public async Task<IdentityResult> AddAsync(AddUserProfile entity, IEnumerable<string> roles)
         {
-            throw new NotImplementedException();
+            var usr = new StoreUser
+            {
+                FirstName = entity.FirstName,
+                LastName = entity.LastName,
+                UserName = entity.Username,
+                Email = entity.Email
+            };
+
+            var res = await _userManager.CreateAsync(usr, entity.Password);
+            if (res.Succeeded)
+            {
+                await _userManager.AddToRolesAsync(usr, roles);
+            }
+            return res;
         }
 
-        public Task DeleteAsync(IdentityRole entity)
+        public async Task<IdentityResult> DeactivateAsync(string Id)
         {
-            throw new NotImplementedException();
+            var usr = await _userManager.FindByIdAsync(Id);
+            if (usr == null)
+                return null;
+            usr.IsActive = false;
+            return await _userManager.UpdateAsync(usr);
         }
 
         public async Task<IEnumerable<UserViewModel>> GetAllAsync()
@@ -37,6 +54,7 @@ namespace StorifyAPI.Repositories.UserRepo
                 FirstName = usr.FirstName,
                 LastName = usr.LastName,
                 Email = usr.Email,
+                IsActived = usr.IsActive,
                 Roles = _userManager.GetRolesAsync(usr).Result
             }).ToListAsync();
         }
@@ -46,14 +64,47 @@ namespace StorifyAPI.Repositories.UserRepo
             return await _userManager.FindByIdAsync(Id);
         }
 
-        public async Task<UserRolesViewModel> GetUserRolesAsync(StoreUser entity)
+        public async Task<StoreUser> GetByEmailAsync(string Email)
         {
-            return await _userRolesRepository.GetByUserAsync(entity);
+            return await _userManager.FindByEmailAsync(Email);
         }
 
-        public async Task<Task> UpdateRolesAsync(UserRolesViewModel entity, StoreUser UsrEntity)
+        public async Task<StoreUser> GetByUsernameAsync(string Username)
         {
-            return await _userRolesRepository.UpdateAsync(entity, UsrEntity);
+            return await _userManager.FindByNameAsync(Username);
+        }
+
+        public async Task<UserRolesViewModel> GetUserRolesAsync(string userId)
+        {
+            var usr = await this.GetByIdAsync(userId);
+
+            if (usr == null)
+                return null;
+
+            return await _userRolesRepository.GetByUserAsync(usr);
+        }
+
+        public async Task<IdentityResult> Update(StoreUser entity, EditUserProfile newEntity)
+        {
+
+            entity.UserName = newEntity.Username;
+            entity.FirstName = newEntity.FirstName;
+            entity.LastName = newEntity.LastName;
+            entity.Email = newEntity.Email;
+            entity.IsActive = newEntity.IsActive;
+
+            return await _userManager.UpdateAsync(entity);
+
+        }
+
+        public async Task<Task> UpdateRolesAsync(UserRolesViewModel entity)
+        {
+            var usr = await this.GetByIdAsync(entity.UserId);
+
+            if (usr == null)
+                return null;
+
+            return await _userRolesRepository.UpdateAsync(entity, usr);
         }
     }
 }

@@ -22,29 +22,17 @@ namespace StorifyAPI.Controllers.User
             _userRepository = new UserRepository(userManager, roleManager);
         }
 
-        [HttpGet("")]
-        public async Task<IActionResult> GetAllUsers()
-        {
-            try
-            {
-                return Ok( await _userRepository.GetAllAsync() );
-            }
-            catch (Exception ex)
-            {
-                return BadRequest( ex.Message );
-            }
-        }
-
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetUserRoles(string userId)
         {
             try
             {
-                var usr = await _userRepository.GetByIdAsync(userId);
-                if (usr == null)
+                var usrRoles = await _userRepository.GetUserRolesAsync(userId);
+
+                if (usrRoles == null) 
                     return NotFound();
 
-                return Ok(await _userRepository.GetUserRolesAsync(usr));
+                return Ok(usrRoles);
             }
             catch (Exception ex)
             {
@@ -58,13 +46,12 @@ namespace StorifyAPI.Controllers.User
         {
             try
             {
-                var usr = await _userRepository.GetByIdAsync(model.UserId);
-                if (usr == null)
-                    return NotFound();
+                var task = await _userRepository.UpdateRolesAsync(model);
 
-                await _userRepository.UpdateRolesAsync(model, usr);
+                if (task == null)
+                    NotFound();
 
-                return RedirectToAction(nameof(GetAllUsers));
+                return RedirectToAction(nameof(UsersController.GetAll), "Users");
             }
             catch (Exception ex)
             {

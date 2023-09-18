@@ -18,21 +18,6 @@ namespace StorifyAPI.Repositories.UserRepo
             _roleManager = roleManager;
         }
 
-        public async Task<Task> AddAsync(RoleForm entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteAsync(IdentityRole entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IEnumerable<IdentityRole>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<UserRolesViewModel> GetByUserAsync(StoreUser entity)
         {
             var roles = await _roleManager.Roles.ToListAsync();

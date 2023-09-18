@@ -18,14 +18,14 @@ namespace StorifyAPI.Controllers.User
     {
         private readonly RoleRepository _roleRepository;
 
-        public RolesController(IdentityContext context)
+        public RolesController(RoleManager<IdentityRole> roleManager)
         {
-            _roleRepository = new RoleRepository(context);
+            _roleRepository = new RoleRepository(roleManager);
         }
         
         private async Task<IActionResult> GetRoleList()
         {
-            return Ok((from r in await _roleRepository.GetAllAsync() select new { r.Id, r.Name }));
+            return Ok((from r in await _roleRepository.GetAllAsync() select new RoleModel { RoleId = r.Id, RoleName =  r.Name }));
         }
 
         [HttpGet("")]
