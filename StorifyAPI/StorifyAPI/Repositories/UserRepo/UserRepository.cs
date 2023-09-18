@@ -10,10 +10,12 @@ namespace StorifyAPI.Repositories.UserRepo
     public class UserRepository
     {
         private readonly UserManager<StoreUser> _userManager;
+        private readonly UserRolesRepository _userRolesRepository;
 
-        public UserRepository(UserManager<StoreUser> userManager)
+        public UserRepository(UserManager<StoreUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
+            _userRolesRepository = new UserRolesRepository(userManager, roleManager);
         }
 
         public async Task<Task> AddAsync(RoleForm entity)
@@ -28,7 +30,15 @@ namespace StorifyAPI.Repositories.UserRepo
 
         public async Task<IEnumerable<UserViewModel>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _userManager.Users.Select(usr => new UserViewModel
+            {
+                Id = usr.Id,
+                UserName = usr.UserName,
+                FirstName = usr.FirstName,
+                LastName = usr.LastName,
+                Email = usr.Email,
+                Roles = _userManager.GetRolesAsync(usr).Result
+            }).ToListAsync();
         }
 
         public async Task<StoreUser> GetByIdAsync(string Id)
@@ -36,9 +46,14 @@ namespace StorifyAPI.Repositories.UserRepo
             return await _userManager.FindByIdAsync(Id);
         }
 
-        public async Task<Task> UpdateAsync(UserRolesViewModel entity, StoreUser UsrEntity)
+        public async Task<UserRolesViewModel> GetUserRolesAsync(StoreUser entity)
         {
-            throw new NotImplementedException();
+            return await _userRolesRepository.GetByUserAsync(entity);
+        }
+
+        public async Task<Task> UpdateRolesAsync(UserRolesViewModel entity, StoreUser UsrEntity)
+        {
+            return await _userRolesRepository.UpdateAsync(entity, UsrEntity);
         }
     }
 }

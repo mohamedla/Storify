@@ -28,20 +28,12 @@ namespace StorifyAPI.Repositories.UserRepo
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<UserViewModel>> GetAllAsync()
+        public async Task<IEnumerable<IdentityRole>> GetAllAsync()
         {
-            return await _userManager.Users.Select(usr => new UserViewModel
-            {
-                Id = usr.Id,
-                UserName = usr.UserName,
-                FirstName = usr.FirstName,
-                LastName = usr.LastName,
-                Email = usr.Email,
-                Roles = _userManager.GetRolesAsync(usr).Result
-            }).ToListAsync();
+            throw new NotImplementedException();
         }
 
-        public async Task<UserRolesViewModel> GetByIdAsync(StoreUser entity)
+        public async Task<UserRolesViewModel> GetByUserAsync(StoreUser entity)
         {
             var roles = await _roleManager.Roles.ToListAsync();
 

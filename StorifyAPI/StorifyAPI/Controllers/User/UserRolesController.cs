@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StorifyApi.FormModelsStorifyAPI.Models.User.FormModels;
@@ -11,23 +12,22 @@ namespace StorifyAPI.Controllers.User
 {
     [ApiController]
     [Route("api/UserRoles")]
+    //[Authorize(Roles = RoleNames.admin)]
     public class UserRolesController : Controller
     {
-        private readonly UserRolesRepository _userRolesRepository;
         private readonly UserRepository _userRepository;
 
         public UserRolesController(UserManager<StoreUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            _userRolesRepository = new UserRolesRepository(userManager, roleManager);
-            _userRepository = new UserRepository(userManager);
+            _userRepository = new UserRepository(userManager, roleManager);
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> GetAllUsersWithRoles()
+        public async Task<IActionResult> GetAllUsers()
         {
             try
             {
-                return Ok( await _userRolesRepository.GetAllAsync() );
+                return Ok( await _userRepository.GetAllAsync() );
             }
             catch (Exception ex)
             {
@@ -44,7 +44,7 @@ namespace StorifyAPI.Controllers.User
                 if (usr == null)
                     return NotFound();
 
-                return Ok(await _userRolesRepository.GetByIdAsync(usr));
+                return Ok(await _userRepository.GetUserRolesAsync(usr));
             }
             catch (Exception ex)
             {
@@ -62,9 +62,9 @@ namespace StorifyAPI.Controllers.User
                 if (usr == null)
                     return NotFound();
 
-                await _userRolesRepository.UpdateAsync(model, usr);
+                await _userRepository.UpdateRolesAsync(model, usr);
 
-                return RedirectToAction(nameof(GetAllUsersWithRoles));
+                return RedirectToAction(nameof(GetAllUsers));
             }
             catch (Exception ex)
             {

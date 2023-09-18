@@ -19,5 +19,8 @@ namespace StorifyAPI.Models.Employee
 
         public byte[]? PersonalImage { get; set; }
 
+        [Required]
+        public bool IsActive { get; set; } = true;
+
     }
 }
