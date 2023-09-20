@@ -9,7 +9,7 @@ namespace StorifyAPI.Controllers.User
 {
     [ApiController]
     [Route("api/Users")]
-    //[Authorize(Roles = RoleNames.admin)]
+    [Authorize(Roles = RoleNames.admin)]
     public class UsersController : Controller
     {
         private readonly UserRepository _userRepository;
@@ -147,7 +147,7 @@ namespace StorifyAPI.Controllers.User
             }
         }
 
-        [HttpDelete("{Id}")]
+        [HttpPatch("{Id}")]
         public async Task<IActionResult> Deactivate(string Id)
         {
             try

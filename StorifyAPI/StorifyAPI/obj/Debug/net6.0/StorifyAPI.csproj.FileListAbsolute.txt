@@ -600,3 +600,4 @@ D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\Microso
 D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\StorifyAPI.staticwebassets.runtime.json
 D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.UI.dll
 D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\Microsoft.Extensions.FileProviders.Embedded.dll
+D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
