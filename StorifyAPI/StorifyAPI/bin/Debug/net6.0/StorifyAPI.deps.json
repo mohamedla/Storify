@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v6.0": {
       "StorifyAPI/1.0.0": {
         "dependencies": {
+          "LoggerService": "1.0.0",
           "Microsoft.AspNet.WebApi.Core": "5.2.9",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.22",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.22",
@@ -17,6 +18,7 @@
           "Microsoft.EntityFrameworkCore.Sqlite": "6.0.21",
           "Microsoft.EntityFrameworkCore.Tools": "7.0.10",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "6.0.16",
+          "NLog.Extensions.Logging": "5.3.4",
           "Newtonsoft.Json": "13.0.3",
           "Swashbuckle.AspNetCore": "6.5.0"
         },
@@ -1833,6 +1835,27 @@
           }
         }
       },
+      "NLog/5.2.4": {
+        "runtime": {
+          "lib/netstandard2.0/NLog.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.2.4.2092"
+          }
+        }
+      },
+      "NLog.Extensions.Logging/5.3.4": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "7.0.0",
+          "Microsoft.Extensions.Logging": "7.0.0",
+          "NLog": "5.2.4"
+        },
+        "runtime": {
+          "lib/net6.0/NLog.Extensions.Logging.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.3.4.395"
+          }
+        }
+      },
       "NuGet.Common/6.6.1": {
         "dependencies": {
           "NuGet.Frameworks": "6.6.1"
@@ -2996,6 +3019,20 @@
           "System.Threading": "4.3.0",
           "System.Xml.ReaderWriter": "4.3.0"
         }
+      },
+      "Contracts/1.0.0": {
+        "runtime": {
+          "Contracts.dll": {}
+        }
+      },
+      "LoggerService/1.0.0": {
+        "dependencies": {
+          "Contracts": "1.0.0",
+          "NLog.Extensions.Logging": "5.3.4"
+        },
+        "runtime": {
+          "LoggerService.dll": {}
+        }
       }
     }
   },
@@ -3943,6 +3980,20 @@
       "path": "newtonsoft.json.bson/1.0.1",
       "hashPath": "newtonsoft.json.bson.1.0.1.nupkg.sha512"
     },
+    "NLog/5.2.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/qzds1Cp9rQD53La3mlWOmCHsFSbmT9BCb8q6k3eOrbOYDfdf3ZN1hBW7IDImUD6V8BfPfEFBhXGDLOEOQxHgQ==",
+      "path": "nlog/5.2.4",
+      "hashPath": "nlog.5.2.4.nupkg.sha512"
+    },
+    "NLog.Extensions.Logging/5.3.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rxUGUqhE3DlcKfKhPJOI0xOt8q2+NX0NkBY9lbRXwZEYQsh8ASFS8X7K+Y7/dcE8v0tpAe7GF8rPD5h4h9Hpsg==",
+      "path": "nlog.extensions.logging/5.3.4",
+      "hashPath": "nlog.extensions.logging.5.3.4.nupkg.sha512"
+    },
     "NuGet.Common/6.6.1": {
       "type": "package",
       "serviceable": true,
@@ -4754,6 +4805,16 @@
       "sha512": "sha512-5zJ0XDxAIg8iy+t4aMnQAu0MqVbqyvfoUVl1yDV61xdo3Vth45oA2FoY4pPkxYAH5f8ixpmTqXeEIya95x0aCQ==",
       "path": "system.xml.xdocument/4.3.0",
       "hashPath": "system.xml.xdocument.4.3.0.nupkg.sha512"
+    },
+    "Contracts/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "LoggerService/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }

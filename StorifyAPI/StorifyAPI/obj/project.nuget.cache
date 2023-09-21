@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "t4JF58nltWyFylJ3JNPCEb+7xtK2nwBQxDMZ9pwtARGKVnNAH2vPnHXxmimawOCh5eJK/Zl6OA6amV/BHdLUYw==",
+  "dgSpecHash": "AeGqpzduZ31okvfHwois5yrlXdP7d2xm3dgp7rC+MIMzLJo9f0mMkAX9WpVZ2xq3e00vuLjLe4LtDWspBgwXBQ==",
   "success": true,
   "projectFilePath": "D:\\WorkSpace\\Repos\\GitHup\\Storify\\StorifyAPI\\StorifyAPI\\StorifyAPI.csproj",
   "expectedPackageFiles": [
@@ -138,6 +138,8 @@
     "C:\\Users\\Administrator\\.nuget\\packages\\netstandard.library\\1.6.1\\netstandard.library.1.6.1.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\newtonsoft.json.bson\\1.0.1\\newtonsoft.json.bson.1.0.1.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\nlog\\5.2.4\\nlog.5.2.4.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\nlog.extensions.logging\\5.3.4\\nlog.extensions.logging.5.3.4.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\nuget.common\\6.6.1\\nuget.common.6.6.1.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\nuget.configuration\\6.6.1\\nuget.configuration.6.6.1.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\nuget.dependencyresolver.core\\6.6.1\\nuget.dependencyresolver.core.6.6.1.nupkg.sha512",

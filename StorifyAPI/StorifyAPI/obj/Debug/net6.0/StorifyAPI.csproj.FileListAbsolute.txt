@@ -601,3 +601,11 @@ D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\Storify
 D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.UI.dll
 D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\Microsoft.Extensions.FileProviders.Embedded.dll
 D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\nlog.config
+D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\appsettings.Production.json
+D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\NLog.dll
+D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\NLog.Extensions.Logging.dll
+D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\Contracts.dll
+D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\LoggerService.dll
+D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\LoggerService.pdb
+D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\Contracts.pdb
