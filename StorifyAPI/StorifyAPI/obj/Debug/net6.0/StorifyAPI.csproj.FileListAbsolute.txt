@@ -611,3 +611,5 @@ D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\LoggerS
 D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\Contracts.pdb
 D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\Entities.dll
 D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\Entities.pdb
+D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\Repository.dll
+D:\WorkSpace\Repos\GitHup\Storify\StorifyAPI\StorifyAPI\bin\Debug\net6.0\Repository.pdb

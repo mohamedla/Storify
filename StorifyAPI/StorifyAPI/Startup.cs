@@ -12,6 +12,8 @@ using NLog;
 using Stories;
 using LoggerService;
 using Entities;
+using Contracts;
+using Repository;
 
 namespace StorifyAPI
 {
@@ -42,7 +44,9 @@ namespace StorifyAPI
 
             services.ConfigCORS(); // CORS Config Policy
             services.ConfigIISIntegration(); // IIS Option
+
             services.AddScoped<ILoggerManager, LoggerManager>(); // Configure Logger Service
+            services.AddScoped<IRepositoryManager, RepositoryManager>(); // Add DI TO My Repositry Manager (Data Access Layer)
 
             #endregion
 
