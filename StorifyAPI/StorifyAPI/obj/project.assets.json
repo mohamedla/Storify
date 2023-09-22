@@ -4420,6 +4420,9 @@
       "Contracts/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Entities": "1.0.0"
+        },
         "compile": {
           "bin/placeholder/Contracts.dll": {}
         },
@@ -4452,6 +4455,19 @@
         },
         "runtime": {
           "bin/placeholder/LoggerService.dll": {}
+        }
+      },
+      "Repository/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Contracts": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Repository.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Repository.dll": {}
         }
       }
     }
@@ -12583,11 +12599,15 @@
       "type": "project",
       "path": "../LoggerService/LoggerService.csproj",
       "msbuildProject": "../LoggerService/LoggerService.csproj"
+    },
+    "Repository/1.0.0": {
+      "type": "project",
+      "path": "../Repository/Repository.csproj",
+      "msbuildProject": "../Repository/Repository.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
-      "Entities >= 1.0.0",
       "LoggerService >= 1.0.0",
       "Microsoft.AspNet.WebApi.Core >= 5.2.9",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 6.0.22",
@@ -12600,6 +12620,7 @@
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 6.0.16",
       "NLog.Extensions.Logging >= 5.3.4",
       "Newtonsoft.Json >= 13.0.3",
+      "Repository >= 1.0.0",
       "Swashbuckle.AspNetCore >= 6.5.0"
     ]
   },
@@ -12630,11 +12651,11 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\WorkSpace\\Repos\\GitHup\\Storify\\StorifyAPI\\Entities\\Entities.csproj": {
-              "projectPath": "D:\\WorkSpace\\Repos\\GitHup\\Storify\\StorifyAPI\\Entities\\Entities.csproj"
-            },
             "D:\\WorkSpace\\Repos\\GitHup\\Storify\\StorifyAPI\\LoggerService\\LoggerService.csproj": {
               "projectPath": "D:\\WorkSpace\\Repos\\GitHup\\Storify\\StorifyAPI\\LoggerService\\LoggerService.csproj"
+            },
+            "D:\\WorkSpace\\Repos\\GitHup\\Storify\\StorifyAPI\\Repository\\Repository.csproj": {
+              "projectPath": "D:\\WorkSpace\\Repos\\GitHup\\Storify\\StorifyAPI\\Repository\\Repository.csproj"
             }
           }
         }
