@@ -11,6 +11,7 @@ using System.Text.Json.Serialization;
 using NLog;
 using Stories;
 using LoggerService;
+using Entities;
 
 namespace StorifyAPI
 {
@@ -32,13 +33,16 @@ namespace StorifyAPI
 
             services.AddSwaggerGen();
 
-            services.AddDbContext<StorifyContext>(option => option.UseSqlServer(_configuration.GetConnectionString("Storify") ?? throw new InvalidOperationException("Can't found Storify Connection String While Working With Identity.")));
+            services.AddDbContext<StorifyContext>(option => option.UseSqlServer(_configuration.GetConnectionString("Storify") ?? throw new InvalidOperationException("Can't found Storify Connection String While Working With Store.")));
+
+            services.AddDbContext<RepositoryContext>(options => options.UseSqlServer(_configuration.GetConnectionString("Storify") ?? throw new InvalidOperationException("Can't found Storify Connection String While Working With Repository."), 
+                b => b.MigrationsAssembly("StorifyAPI") ) );    
 
             #region Service Extentions
 
             services.ConfigCORS(); // CORS Config Policy
             services.ConfigIISIntegration(); // IIS Option
-            services.AddScoped<ILoggerManager, LoggerManager>(); // Configure Logger    Service
+            services.AddScoped<ILoggerManager, LoggerManager>(); // Configure Logger Service
 
             #endregion
 
