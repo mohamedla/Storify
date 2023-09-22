@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
-//using StorifyAPI.Models.Stores;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Entities.Models;
 
 namespace StorifyAPI.Models.Employee
 {
@@ -21,6 +21,10 @@ namespace StorifyAPI.Models.Employee
 
         [Required]
         public bool IsActive { get; set; } = true;
+
+        public Guid StoreId {  get; set; }
+
+        public virtual Store?  Store { get; set; }
 
     }
 }
