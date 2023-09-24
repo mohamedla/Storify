@@ -277,6 +277,9 @@
               },
               "D:\\WorkSpace\\Repos\\GitHup\\Storify\\StorifyAPI\\Repository\\Repository.csproj": {
                 "projectPath": "D:\\WorkSpace\\Repos\\GitHup\\Storify\\StorifyAPI\\Repository\\Repository.csproj"
+              },
+              "D:\\WorkSpace\\Repos\\GitHup\\Storify\\StorifyAPI\\Stories\\Contracts.csproj": {
+                "projectPath": "D:\\WorkSpace\\Repos\\GitHup\\Storify\\StorifyAPI\\Stories\\Contracts.csproj"
               }
             }
           }
@@ -291,6 +294,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
             "Microsoft.AspNet.WebApi.Core": {
               "target": "Package",
               "version": "[5.2.9, )"

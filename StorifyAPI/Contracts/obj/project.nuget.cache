@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9XJ7Z+MZ6peVOq9z5oJjD4yMyTI3hbQ6yxjN6SLhPGiguRmjByoXN6xTbVOWym/wFo4RFKGM+buUuYno56d51A==",
+  "dgSpecHash": "ZYVAr3c1Ixwhfdci9DBUsgZzU/c7ntxm6P+hxtguRQZbrFN21mlnKTrhoiodTTkeN/t4UdxGwhBOBX0cTNv3KQ==",
   "success": true,
-  "projectFilePath": "D:\\WorkSpace\\Repos\\GitHup\\Storify\\StorifyAPI\\Stories\\Contracts.csproj",
+  "projectFilePath": "D:\\WorkSpace\\Repos\\GitHup\\Storify\\StorifyAPI\\Contracts\\Contracts.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.10\\microsoft.entityframeworkcore.7.0.10.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.10\\microsoft.entityframeworkcore.abstractions.7.0.10.nupkg.sha512",

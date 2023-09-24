@@ -585,11 +585,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\WorkSpace\\Repos\\GitHup\\Storify\\StorifyAPI\\Stories\\Contracts.csproj",
+      "projectUniqueName": "D:\\WorkSpace\\Repos\\GitHup\\Storify\\StorifyAPI\\Contracts\\Contracts.csproj",
       "projectName": "Contracts",
-      "projectPath": "D:\\WorkSpace\\Repos\\GitHup\\Storify\\StorifyAPI\\Stories\\Contracts.csproj",
+      "projectPath": "D:\\WorkSpace\\Repos\\GitHup\\Storify\\StorifyAPI\\Contracts\\Contracts.csproj",
       "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "D:\\WorkSpace\\Repos\\GitHup\\Storify\\StorifyAPI\\Stories\\obj\\",
+      "outputPath": "D:\\WorkSpace\\Repos\\GitHup\\Storify\\StorifyAPI\\Contracts\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -9,11 +9,12 @@ using StorifyAPI.Models.Employee;
 using System.Text;
 using System.Text.Json.Serialization;
 using NLog;
-using Stories;
+using Contracts;
 using LoggerService;
 using Entities;
 using Contracts;
 using Repository;
+using StorifyAPI.Extensions;
 
 namespace StorifyAPI
 {
@@ -38,9 +39,11 @@ namespace StorifyAPI
             services.AddDbContext<StorifyContext>(option => option.UseSqlServer(_configuration.GetConnectionString("Storify") ?? throw new InvalidOperationException("Can't found Storify Connection String While Working With Store.")));
 
             services.AddDbContext<RepositoryContext>(options => options.UseSqlServer(_configuration.GetConnectionString("Storify") ?? throw new InvalidOperationException("Can't found Storify Connection String While Working With Repository."), 
-                b => b.MigrationsAssembly("StorifyAPI") ) );    
+                b => b.MigrationsAssembly("StorifyAPI") ) );
 
             #region Service Extentions
+
+            services.AddAutoMapper(typeof(Startup)); // Auto Mapper Service
 
             services.ConfigCORS(); // CORS Config Policy
             services.ConfigIISIntegration(); // IIS Option
@@ -98,7 +101,7 @@ namespace StorifyAPI
 
         }
 
-        public void Configure (WebApplication app, IWebHostEnvironment env)
+        public void Configure (WebApplication app, IWebHostEnvironment env, ILoggerManager logger)
         {
             if (env.IsDevelopment())
             {
@@ -114,6 +117,7 @@ namespace StorifyAPI
 
             #region App Config
 
+            app.ConfigureExeptionHundelar(logger);
             app.UseStaticFiles();
             app.UseCors(ServiceExtensions.corsPolicy);
             app.UseForwardedHeaders(new ForwardedHeadersOptions
