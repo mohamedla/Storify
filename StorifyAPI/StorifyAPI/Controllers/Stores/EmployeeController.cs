@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Contracts;
 using Entities.DataTransferObjects;
+using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace StorifyAPI.Controllers.Stores
@@ -40,7 +41,7 @@ namespace StorifyAPI.Controllers.Stores
 
         }
 
-        [HttpGet("{Id}")]
+        [HttpGet("{Id}", Name = "GetEmployeeForStore")]
         public IActionResult GetEmployeeForStore(Guid StoreId, Guid Id)
         {
             var store = _repositoryManager.Store.GetStore(StoreId, false);
@@ -63,6 +64,33 @@ namespace StorifyAPI.Controllers.Stores
                 return Ok(employeeDTO);
             }
 
+        }
+
+        [HttpPost("")]
+        public IActionResult GetEmployeeForStore(Guid StoreId, [FromBody] EmployeeCreateDTO employeeDTO)
+        {
+            if (employeeDTO == null)
+            {
+                _logger.LogError("Employee Create DTO Object Sent from client is null");
+                return BadRequest("Employee Is Empty");
+            }
+
+            var store = _repositoryManager.Store.GetStore(StoreId, false);
+
+            if (store == null)
+            {
+                _logger.LogInfo($"No Store With Id : {StoreId} Exist In The Database");
+                return NotFound();
+            }
+
+            var employee = _mapper.Map<Employee>(employeeDTO);
+
+            _repositoryManager.Employee.CreateEmployeeForStore(StoreId, employee);
+            _repositoryManager.Save();
+
+            var returnEmployee = _mapper.Map<EmployeeDTO>(employee);
+
+            return CreatedAtRoute("GetEmployeeForStore", new { StoreId, Id = returnEmployee.Id }, returnEmployee);
         }
     }
 }

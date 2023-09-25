@@ -3,6 +3,8 @@ using Contracts;
 using Entities.DataTransferObjects;
 using Microsoft.AspNetCore.Mvc;
 using Contracts;
+using Entities.Models;
+using StorifyAPI.ModelBinders;
 
 namespace StorifyAPI.Controllers.Stores
 {
@@ -33,7 +35,7 @@ namespace StorifyAPI.Controllers.Stores
             return Ok(storesDTO);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "StoreById")]
         public IActionResult GetStore(Guid id)
         {
             var store = _repositoryManager.Store.GetStore(id, false);
@@ -48,6 +50,71 @@ namespace StorifyAPI.Controllers.Stores
                 var storeDTO = _mapper.Map<StoreDTO>(store);
                 return Ok(storeDTO);
             }
+        }
+
+        [HttpGet("collections/{{ids}}", Name = "GetStoreCollection")]
+        public IActionResult GetStoreCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
+        {
+            if (ids == null)
+            {
+                _logger.LogInfo("Client Sent Empty List Of Ids");
+                return BadRequest("The List Of Store Ids Is Empty");
+            }
+
+            var stores = _repositoryManager.Store.GetStoresByIds(ids, false);
+
+            if (ids.Count() != stores.Count())
+            {
+                _logger.LogInfo($"Some ids are not valid in connection");
+                return NotFound();
+            }
+
+            var storesDTO = _mapper.Map<IEnumerable<StoreDTO>>(stores);
+            return Ok(storesDTO);
+        }
+
+        [HttpPost("")]
+        public IActionResult AddStore([FromBody] StoreCreateDTO storeDTO)
+        {
+            if(storeDTO == null)
+            {
+                _logger.LogError("Store Create DTO Object Sent from client is null");
+                return BadRequest("Store Is Empty");
+            }
+
+            var store = _mapper.Map<Store>(storeDTO);
+
+            _repositoryManager.Store.CreateStore(store);
+            _repositoryManager.Save();
+
+            var returnStore = _mapper.Map<StoreDTO>(store);
+
+            return CreatedAtRoute("StoreById", new { Id = returnStore.Id }, returnStore);
+        }
+
+        [HttpPost("collection")]
+        public IActionResult AddStoreCollection([FromBody] IEnumerable<StoreCreateDTO> storesDTO)
+        {
+            if (storesDTO == null)
+            {
+                _logger.LogError("Stores Create DTO Object Sent from client is null");
+                return BadRequest("Stores Is Empty");
+            }
+
+            var stores = _mapper.Map<IEnumerable<Store>>(storesDTO);
+
+            foreach (var store in stores)
+            {
+                _repositoryManager.Store.CreateStore(store);
+            }
+
+            _repositoryManager.Save();
+
+            var returnStores = _mapper.Map<IEnumerable<StoreDTO>>(stores);
+
+            var ids = string.Join(",", returnStores.Select(s => s.Id));
+
+            return CreatedAtRoute("GetStoreCollection", new { ids }, returnStores);
         }
     }
 }

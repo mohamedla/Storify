@@ -14,10 +14,16 @@ namespace Repository
         public StoreRepository( RepositoryContext repositoryContext ) : base (repositoryContext)
         { }
 
+        public void CreateStore(Store store)
+            => Create(store);
+
         public IEnumerable<Store> GetAllStores(bool trackChanges)
              => FindAll(trackChanges).OrderBy(x => x.Code).ToList();
 
+        public IEnumerable<Store> GetStoresByIds(IEnumerable<Guid> Ids, bool trackChanges)
+            => FindByCondition(s => Ids.Contains(s.Id), trackChanges).ToList();
+
         public Store GetStore(Guid id, bool trackChanges)
-            => FindByCondition(c => c.Id.Equals(id), trackChanges).SingleOrDefault();
+            => FindByCondition(s => s.Id.Equals(id), trackChanges).SingleOrDefault();
     }
 }

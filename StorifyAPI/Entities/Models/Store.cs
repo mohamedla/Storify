@@ -25,6 +25,6 @@ namespace Entities.Models
         //[Required(ErrorMessage = "Store Cost Center ID Is Required Field"), Column(name: "CCID")]
         public int? CostCenterID {  get; set; }
 
-        public virtual ICollection<Employee>? Employees { get; set; }
+        public virtual IEnumerable<Employee>? Employees { get; set; }
     }
 }
