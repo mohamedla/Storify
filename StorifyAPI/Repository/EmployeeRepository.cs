@@ -13,5 +13,10 @@ namespace Repository
     {
         public EmployeeRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         { }
+
+        public Employee GetEmployee(Guid StoreId, Guid Id, bool trackChanges)
+            => FindByCondition(e => e.StoreId.Equals(StoreId) && e.Id.Equals(Id), trackChanges).SingleOrDefault();
+        public IEnumerable<Employee> GetEmployees(Guid StoreId, bool trackChanges)
+            => FindByCondition(e => e.StoreId.Equals(StoreId), trackChanges).OrderBy(e => e.Code);
     }
 }

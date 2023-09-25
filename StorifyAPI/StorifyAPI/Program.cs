@@ -1,4 +1,5 @@
 // Copyright 2023 Mohamed Ashraf Tolba
+using LoggerService;
 using StorifyAPI;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -71,7 +72,7 @@ startup.ConfigureServices(builder.Services);
 
 
 var app = builder.Build();
-startup.Configure(app, builder.Environment);
+startup.Configure(app, builder.Environment, new LoggerManager()) ;
 
 #region app config while There is no startup
 // Configure the HTTP request pipeline.

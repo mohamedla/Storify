@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Stories;
+using Contracts;
 
 namespace StorifyAPI.Controllers
 {

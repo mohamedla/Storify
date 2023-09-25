@@ -16,5 +16,8 @@ namespace Repository
 
         public IEnumerable<Store> GetAllStores(bool trackChanges)
              => FindAll(trackChanges).OrderBy(x => x.Code).ToList();
+
+        public Store GetStore(Guid id, bool trackChanges)
+            => FindByCondition(c => c.Id.Equals(id), trackChanges).SingleOrDefault();
     }
 }

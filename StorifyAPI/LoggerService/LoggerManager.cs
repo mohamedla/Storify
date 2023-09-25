@@ -1,5 +1,5 @@
 ﻿using NLog;
-using Stories;
+using Contracts;
 
 namespace LoggerService
 {
