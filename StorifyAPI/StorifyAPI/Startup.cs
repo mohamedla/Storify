@@ -97,7 +97,17 @@ namespace StorifyAPI
             services.AddScoped<IAuthenticationManager, AuthenticationManager>();
             #endregion
 
-            services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
+            #region Main Result Config
+            services.AddControllers(config =>
+                {
+                    config.RespectBrowserAcceptHeader = true; //Accept browser type negotiating
+                    config.ReturnHttpNotAcceptable = true; // If client request non supported result format it return not acceptable insted of using json formatter
+
+                })
+                .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles)
+                .AddXmlDataContractSerializerFormatters(); // support xml formatting
+            #endregion
 
         }
 

@@ -24,3 +24,5 @@ Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable`1[[Entities.Models.
    at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
    at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.<Invoke>g__Awaited|6_0(ExceptionHandlerMiddleware middleware, HttpContext context, Task task)
 2023-09-24 08:05:09.7249 INFO No Store With Id : 80abbca8-664d-4b20-b6de-024705497d4a Exist In The Database
+2023-09-24 08:12:23.8300 INFO No Employee With Id : a9e4c537-87d6-810f-9a73-2754e9111870 Exist In The Database
+2023-09-24 08:12:35.2544 INFO No Store With Id : 10abbca8-664d-4b20-b5de-024705497d4a Exist In The Database
