@@ -21,6 +21,14 @@ namespace Entities
         {
             modelBuilder.ApplyConfiguration(new StoreConfiguration());
             modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
+
+            modelBuilder.Entity<Store>()
+                .HasIndex(s => s.Code)
+                .IsUnique();
+
+            modelBuilder.Entity<Employee>()
+                .HasIndex(e => e.Code)
+                .IsUnique();
         }
     }
 }
