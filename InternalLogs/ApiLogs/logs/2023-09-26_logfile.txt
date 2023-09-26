@@ -1,0 +1,5 @@
+2023-09-26 06:37:07.9707 ERROR No Employee with id: 38dc2305-e3f5-4339-339d-08dbbd769732 found in DB
+2023-09-26 06:37:58.6914 INFO No Store With Id : fc871876-4ddf-4789-6fc5-08dbbd769729 Exist In The Database
+2023-09-26 06:38:50.5788 INFO No Store With Id : fc871876-4ddf-4789-6fc5-08dbbd769729 Exist In The Database
+2023-09-26 06:39:07.3546 ERROR No Employee with id: a8dc2305-e3f5-4339-339d-08dbbd769732 found in DB
+2023-09-26 06:49:14.9105 ERROR No Store With id: fc871876-4ddf-4788-6fc5-08dbbd769720 found in DB

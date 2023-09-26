@@ -67,7 +67,7 @@ namespace StorifyAPI.Controllers.Stores
         }
 
         [HttpPost("")]
-        public IActionResult GetEmployeeForStore(Guid StoreId, [FromBody] EmployeeCreateDTO employeeDTO)
+        public IActionResult CreateEmployeeForStore(Guid StoreId, [FromBody] EmployeeCreateDTO employeeDTO)
         {
             if (employeeDTO == null)
             {
@@ -91,6 +91,30 @@ namespace StorifyAPI.Controllers.Stores
             var returnEmployee = _mapper.Map<EmployeeDTO>(employee);
 
             return CreatedAtRoute("GetEmployeeForStore", new { StoreId, Id = returnEmployee.Id }, returnEmployee);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteEmployee(Guid StoreId, Guid id)
+        {
+            var store = _repositoryManager.Store.GetStore(StoreId, false);
+
+            if (store == null)
+            {
+                _logger.LogInfo($"No Store With Id : {StoreId} Exist In The Database");
+                return NotFound("No Store Exist With This ID");
+            }
+
+            var employee = _repositoryManager.Employee.GetEmployee(StoreId, id, false);
+            if (employee == null)
+            {
+                _logger.LogError($"No Employee with id: {id} found in DB");
+                return NotFound("No Employee Exist With This ID");
+            }
+
+            _repositoryManager.Employee.DeleteEmployee(employee);
+            _repositoryManager.Save();
+
+            return NoContent();
         }
     }
 }

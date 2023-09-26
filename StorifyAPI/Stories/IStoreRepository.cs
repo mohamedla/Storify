@@ -13,5 +13,6 @@ namespace Contracts
         Store GetStore(Guid id, bool trackChanges);
         IEnumerable<Store> GetStoresByIds(IEnumerable<Guid> Ids, bool trackChanges);
         void CreateStore(Store store);
+        void DeleteStore(Store store);
     }
 }

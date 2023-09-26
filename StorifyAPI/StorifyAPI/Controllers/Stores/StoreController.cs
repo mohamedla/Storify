@@ -116,5 +116,21 @@ namespace StorifyAPI.Controllers.Stores
 
             return CreatedAtRoute("GetStoreCollection", new { ids }, returnStores);
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteStore(Guid id)
+        {
+            var store = _repositoryManager.Store.GetStore(id, false);
+            if (store == null)
+            {
+                _logger.LogError($"No Store With id: {id} found in DB");
+                return NotFound();
+            }
+
+            _repositoryManager.Store.DeleteStore(store);
+            _repositoryManager.Save();
+
+            return NoContent();
+        }
     }
 }

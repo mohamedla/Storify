@@ -25,5 +25,8 @@ namespace Repository
 
         public Store GetStore(Guid id, bool trackChanges)
             => FindByCondition(s => s.Id.Equals(id), trackChanges).SingleOrDefault();
+
+        public void DeleteStore(Store store)
+            => Delete(store);
     }
 }
