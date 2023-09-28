@@ -14,5 +14,9 @@ namespace Contracts
         IEnumerable<Store> GetStoresByIds(IEnumerable<Guid> Ids, bool trackChanges);
         void CreateStore(Store store);
         void DeleteStore(Store store);
+
+        Task<IEnumerable<Store>> GetAllStoresAsync(bool trackChanges);
+        Task<Store> GetStoreAsync(Guid id, bool trackChanges);
+        Task<IEnumerable<Store>> GetStoresByIdsAsync(IEnumerable<Guid> Ids, bool trackChanges);
     }
 }

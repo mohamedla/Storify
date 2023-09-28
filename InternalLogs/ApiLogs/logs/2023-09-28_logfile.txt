@@ -178,3 +178,4 @@ Error Number:2601,State:1,Class:14
    at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
    at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.<Invoke>g__Awaited|6_0(ExceptionHandlerMiddleware middleware, HttpContext context, Task task)
 2023-09-28 20:33:43.5788 ERROR Invalid Model State For The Employee JsonPatchDocument Object
+2023-09-28 20:34:10.8469 ERROR Invalid Model State For The Employee JsonPatchDocument Object

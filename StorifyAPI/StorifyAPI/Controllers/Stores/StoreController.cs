@@ -26,9 +26,9 @@ namespace StorifyAPI.Controllers.Stores
         }
 
         [HttpGet("")]
-        public IActionResult GetAllStores()
+        public async Task<IActionResult> GetAllStoresAsync()
         {
-            var stores = _repositoryManager.Store.GetAllStores(false);
+            var stores = await _repositoryManager.Store.GetAllStoresAsync(false);
 
             var storesDTO = _mapper.Map<IEnumerable<StoreDTO>>(stores);
 
@@ -36,9 +36,9 @@ namespace StorifyAPI.Controllers.Stores
         }
 
         [HttpGet("{id}", Name = "StoreById")]
-        public IActionResult GetStore(Guid id)
+        public async Task<IActionResult> GetStoreAsync(Guid id)
         {
-            var store = _repositoryManager.Store.GetStore(id, false);
+            var store = await _repositoryManager.Store.GetStoreAsync(id, false);
 
             if(store == null)
             {
@@ -53,7 +53,7 @@ namespace StorifyAPI.Controllers.Stores
         }
 
         [HttpGet("collections/{{ids}}", Name = "GetStoreCollection")]
-        public IActionResult GetStoreCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
+        public async Task<IActionResult> GetStoreCollectionAsync([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
         {
             if (ids == null)
             {
@@ -61,7 +61,7 @@ namespace StorifyAPI.Controllers.Stores
                 return BadRequest("The List Of Store Ids Is Empty");
             }
 
-            var stores = _repositoryManager.Store.GetStoresByIds(ids, false);
+            var stores = await _repositoryManager.Store.GetStoresByIdsAsync(ids, false);
 
             if (ids.Count() != stores.Count())
             {
@@ -74,7 +74,7 @@ namespace StorifyAPI.Controllers.Stores
         }
 
         [HttpPost("")]
-        public IActionResult AddStore([FromBody] StoreCreateDTO storeDTO)
+        public async Task<IActionResult> AddStoreAsync([FromBody] StoreCreateDTO storeDTO)
         {
             if(storeDTO == null)
             {
@@ -91,7 +91,7 @@ namespace StorifyAPI.Controllers.Stores
             var store = _mapper.Map<Store>(storeDTO);
 
             _repositoryManager.Store.CreateStore(store);
-            _repositoryManager.Save();
+            await _repositoryManager.SaveAsync();
 
             var returnStore = _mapper.Map<StoreDTO>(store);
 
@@ -99,7 +99,7 @@ namespace StorifyAPI.Controllers.Stores
         }
 
         [HttpPost("collection")]
-        public IActionResult AddStoreCollection([FromBody] IEnumerable<StoreCreateDTO> storesDTO)
+        public async Task<IActionResult> AddStoreCollectionAsync([FromBody] IEnumerable<StoreCreateDTO> storesDTO)
         {
             if (storesDTO == null)
             {
@@ -114,7 +114,7 @@ namespace StorifyAPI.Controllers.Stores
                 _repositoryManager.Store.CreateStore(store);
             }
 
-            _repositoryManager.Save();
+            await _repositoryManager.SaveAsync();
 
             var returnStores = _mapper.Map<IEnumerable<StoreDTO>>(stores);
 
@@ -124,9 +124,9 @@ namespace StorifyAPI.Controllers.Stores
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteStore(Guid id)
+        public async Task<IActionResult> DeleteStoreAsync(Guid id)
         {
-            var store = _repositoryManager.Store.GetStore(id, false);
+            var store = await _repositoryManager.Store.GetStoreAsync(id, false);
             if (store == null)
             {
                 _logger.LogError($"No Store With id: {id} found in DB");
@@ -134,13 +134,13 @@ namespace StorifyAPI.Controllers.Stores
             }
 
             _repositoryManager.Store.DeleteStore(store);
-            _repositoryManager.Save();
+            await _repositoryManager.SaveAsync();
 
             return NoContent();
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateStore( Guid id , [FromBody] StoreUpdateDTO storeDTO)
+        public async Task<IActionResult> UpdateStoreAsync( Guid id , [FromBody] StoreUpdateDTO storeDTO)
         {
             if (storeDTO == null)
             {
@@ -154,7 +154,7 @@ namespace StorifyAPI.Controllers.Stores
                 return UnprocessableEntity(ModelState);
             }
 
-            var store = _repositoryManager.Store.GetStore(id, true);
+            var store = await _repositoryManager.Store.GetStoreAsync(id, true);
 
             if (store == null)
             {
@@ -163,7 +163,7 @@ namespace StorifyAPI.Controllers.Stores
             }
 
             _mapper.Map(storeDTO, store);
-            _repositoryManager.Save();
+            await _repositoryManager.SaveAsync();
 
             return NoContent();
         }

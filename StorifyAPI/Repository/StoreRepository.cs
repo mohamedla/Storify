@@ -1,6 +1,7 @@
 ﻿using Contracts;
 using Entities;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,5 +29,14 @@ namespace Repository
 
         public void DeleteStore(Store store)
             => Delete(store);
+
+        public async Task<IEnumerable<Store>> GetAllStoresAsync(bool trackChanges)
+            => await FindAll(trackChanges).OrderBy(x => x.Code).ToListAsync();
+
+        public async Task<Store> GetStoreAsync(Guid id, bool trackChanges)
+            => await FindByCondition(s => s.Id.Equals(id), trackChanges).SingleOrDefaultAsync();
+
+        public async Task<IEnumerable<Store>> GetStoresByIdsAsync(IEnumerable<Guid> Ids, bool trackChanges)
+            => await FindByCondition(s => Ids.Contains(s.Id), trackChanges).ToListAsync();
     }
 }
