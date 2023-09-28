@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Azure;
 using Contracts;
 using Entities.DataTransferObjects;
 using Entities.Models;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace StorifyAPI.Controllers.Stores
@@ -140,6 +142,40 @@ namespace StorifyAPI.Controllers.Stores
                 _logger.LogInfo($"No Employee With Id : {id} Exist In The Database");
                 return NotFound();
             }
+
+            _mapper.Map(employeeDTO, employee);
+            _repositoryManager.Save();
+
+            return NoContent();
+        }
+
+        [HttpPatch("{id}")]
+        public IActionResult PartiallyUpdateEmployeeForStore(Guid StoreId, Guid id, [FromBody] JsonPatchDocument<EmployeeUpdateDTO> patchEmployeeDTO)
+        {
+            if (patchEmployeeDTO == null)
+            {
+                _logger.LogError("Employee Create DTO Object Sent from client is null");
+                return BadRequest("Employee Is Empty"); 
+            }
+
+            var store = _repositoryManager.Store.GetStore(StoreId, false);
+
+            if (store == null)
+            {
+                _logger.LogInfo($"No Store With Id : {StoreId} Exist In The Database");
+                return NotFound();
+            }
+
+            var employee = _repositoryManager.Employee.GetEmployee(StoreId, id, true);
+            if (store == null)
+            {
+                _logger.LogInfo($"No Employee With Id : {id} Exist In The Database");
+                return NotFound();
+            }
+
+            var employeeDTO = _mapper.Map<EmployeeUpdateDTO>(employee);
+
+            patchEmployeeDTO.ApplyTo(employeeDTO);
 
             _mapper.Map(employeeDTO, employee);
             _repositoryManager.Save();

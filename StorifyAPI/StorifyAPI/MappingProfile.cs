@@ -18,7 +18,7 @@ namespace StorifyAPI
 
             CreateMap<EmployeeCreateDTO, Employee>();
 
-            CreateMap<EmployeeUpdateDTO, Employee>();
+            CreateMap<EmployeeUpdateDTO, Employee>().ReverseMap();
         }
     }
 }
