@@ -12,9 +12,13 @@ namespace StorifyAPI
 
             CreateMap<StoreCreateDTO, Store>();
 
+            CreateMap<StoreUpdateDTO, Store>();
+
             CreateMap<Employee, EmployeeDTO>();
 
             CreateMap<EmployeeCreateDTO, Employee>();
+
+            CreateMap<EmployeeUpdateDTO, Employee>();
         }
     }
 }
