@@ -12,7 +12,9 @@ namespace Contracts
         IEnumerable<Employee> GetEmployees(Guid StoreId, bool trackChanges);
         Employee GetEmployee(Guid StoreId, Guid Id, bool trackChanges);
         void CreateEmployeeForStore(Guid StoreId, Employee employee);
-
         void DeleteEmployee(Employee employee);
+
+        Task<IEnumerable<Employee>> GetEmployeesAsync(Guid StoreId, bool trackChanges);
+        Task<Employee> GetEmployeeAsync(Guid StoreId, Guid Id, bool trackChanges);
     }
 }

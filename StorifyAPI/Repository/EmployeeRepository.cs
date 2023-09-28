@@ -1,6 +1,7 @@
 ﻿using Contracts;
 using Entities;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,14 @@ namespace Repository
 
         public Employee GetEmployee(Guid StoreId, Guid Id, bool trackChanges)
             => FindByCondition(e => e.StoreId.Equals(StoreId) && e.Id.Equals(Id), trackChanges).SingleOrDefault();
+
+        public async Task<Employee> GetEmployeeAsync(Guid StoreId, Guid Id, bool trackChanges)
+            => await FindByCondition(e => e.StoreId.Equals(StoreId) && e.Id.Equals(Id), trackChanges).SingleOrDefaultAsync();
+
         public IEnumerable<Employee> GetEmployees(Guid StoreId, bool trackChanges)
-            => FindByCondition(e => e.StoreId.Equals(StoreId), trackChanges).OrderBy(e => e.Code);
+            => FindByCondition(e => e.StoreId.Equals(StoreId), trackChanges).OrderBy(e => e.Code).ToList();
+
+        public async Task<IEnumerable<Employee>> GetEmployeesAsync(Guid StoreId, bool trackChanges)
+            => await FindByCondition(e => e.StoreId.Equals(StoreId), trackChanges).OrderBy(e => e.Code).ToListAsync();
     }
 }
