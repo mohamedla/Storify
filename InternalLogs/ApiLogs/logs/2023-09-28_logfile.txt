@@ -179,3 +179,7 @@ Error Number:2601,State:1,Class:14
    at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.<Invoke>g__Awaited|6_0(ExceptionHandlerMiddleware middleware, HttpContext context, Task task)
 2023-09-28 20:33:43.5788 ERROR Invalid Model State For The Employee JsonPatchDocument Object
 2023-09-28 20:34:10.8469 ERROR Invalid Model State For The Employee JsonPatchDocument Object
+2023-09-28 23:47:57.0653 ERROR Invalid model state for the object. Controller:Store, action: UpdateStore
+2023-09-28 23:48:26.0762 ERROR Invalid model state for the object. Controller:Store, action: UpdateStore
+2023-09-28 23:53:05.0015 ERROR Invalid Model State For The Employee JsonPatchDocument Object
+2023-09-28 23:53:57.8632 ERROR Invalid model state for the object. Controller:Employee, action: UpdateEmployeeForStore

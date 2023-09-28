@@ -16,6 +16,7 @@ using Contracts;
 using Repository;
 using StorifyAPI.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using StorifyAPI.ActionFilters;
 
 namespace StorifyAPI
 {
@@ -51,9 +52,12 @@ namespace StorifyAPI
 
             services.AddScoped<ILoggerManager, LoggerManager>(); // Configure Logger Service
             services.AddScoped<IRepositoryManager, RepositoryManager>(); // Add DI TO My Repositry Manager (Data Access Layer)
+            services.AddScoped<ValidationFilterAttribute>(); // Custom Action Filter To validate Model State
+            services.AddScoped<ValidationStoreExistsAttribute>(); // Custom Action Filter To validate Store Exists in DB
+            services.AddScoped<ValidationStoreEmployeeExistsAttribute>(); // Custom Action Filter To validate Store Employee Exists in DB
 
             services.Configure<ApiBehaviorOptions>(option
-                => option.SuppressModelStateInvalidFilter = true);
+                => option.SuppressModelStateInvalidFilter = true); // Enabale diffrent Model State Invalid results
 
             #endregion
 

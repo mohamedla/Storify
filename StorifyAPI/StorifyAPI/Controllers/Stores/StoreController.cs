@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Contracts;
 using Entities.Models;
 using StorifyAPI.ModelBinders;
+using StorifyAPI.ActionFilters;
 
 namespace StorifyAPI.Controllers.Stores
 {
@@ -74,20 +75,9 @@ namespace StorifyAPI.Controllers.Stores
         }
 
         [HttpPost("")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> AddStoreAsync([FromBody] StoreCreateDTO storeDTO)
         {
-            if(storeDTO == null)
-            {
-                _logger.LogError("Store Create DTO Object Sent from client is null");
-                return BadRequest("Store Is Empty");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                _logger.LogError("Invalid Model State For The StoreCreateDTO Object");
-                return UnprocessableEntity(ModelState);
-            }
-
             var store = _mapper.Map<Store>(storeDTO);
 
             _repositoryManager.Store.CreateStore(store);
@@ -124,14 +114,10 @@ namespace StorifyAPI.Controllers.Stores
         }
 
         [HttpDelete("{id}")]
+        [ServiceFilter(typeof(ValidationStoreExistsAttribute))]
         public async Task<IActionResult> DeleteStoreAsync(Guid id)
         {
-            var store = await _repositoryManager.Store.GetStoreAsync(id, false);
-            if (store == null)
-            {
-                _logger.LogError($"No Store With id: {id} found in DB");
-                return NotFound();
-            }
+            var store = HttpContext.Items["store"] as Store;
 
             _repositoryManager.Store.DeleteStore(store);
             await _repositoryManager.SaveAsync();
@@ -140,27 +126,11 @@ namespace StorifyAPI.Controllers.Stores
         }
 
         [HttpPut("{id}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ServiceFilter(typeof(ValidationStoreExistsAttribute))]
         public async Task<IActionResult> UpdateStoreAsync( Guid id , [FromBody] StoreUpdateDTO storeDTO)
         {
-            if (storeDTO == null)
-            {
-                _logger.LogError("Store Create DTO Object Sent from client is null");
-                return BadRequest("Store Is Empty");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                _logger.LogError("Invalid Model State For The StoreCreateDTO Object");
-                return UnprocessableEntity(ModelState);
-            }
-
-            var store = await _repositoryManager.Store.GetStoreAsync(id, true);
-
-            if (store == null)
-            {
-                _logger.LogInfo($"No Store With Id : {id} Exist In The Database");
-                return NotFound();
-            }
+            var store = HttpContext.Items["store"] as Store;
 
             _mapper.Map(storeDTO, store);
             await _repositoryManager.SaveAsync();
