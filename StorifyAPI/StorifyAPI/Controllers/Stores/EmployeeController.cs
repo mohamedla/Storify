@@ -3,8 +3,10 @@ using Azure;
 using Contracts;
 using Entities.DataTransferObjects;
 using Entities.Models;
+using Entities.RequestFeatuers;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using StorifyAPI.ActionFilters;
 
 namespace StorifyAPI.Controllers.Stores
@@ -28,11 +30,14 @@ namespace StorifyAPI.Controllers.Stores
 
         [HttpGet("")]
         [ServiceFilter(typeof(ValidationStoreExistsAttribute))]
-        public async Task<IActionResult> GetEmployeeForStoreAsync(Guid StoreId)
+        public async Task<IActionResult> GetEmployeeForStoreAsync(Guid StoreId, [FromQuery] EmployeeParameters employeeParameters)
         {
             var store = HttpContext.Items["store"] as Store;
 
-            var employees = await _repositoryManager.Employee.GetEmployeesAsync(StoreId, false);
+            var employees = await _repositoryManager.Employee.GetEmployeesAsync(StoreId, employeeParameters, false);
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(employees.MetaData)); 
+
             var employeesDTO = _mapper.Map<IEnumerable<EmployeeDTO>>(employees);
 
             return Ok(employeesDTO);
