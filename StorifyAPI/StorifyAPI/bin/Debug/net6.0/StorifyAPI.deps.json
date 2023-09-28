@@ -15,6 +15,8 @@
           "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.22",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.22",
           "Microsoft.AspNetCore.Identity.UI": "6.0.21",
+          "Microsoft.AspNetCore.JsonPatch": "7.0.11",
+          "Microsoft.AspNetCore.Mvc.NewtonsoftJson": "6.0.22",
           "Microsoft.EntityFrameworkCore.Design": "7.0.10",
           "Microsoft.EntityFrameworkCore.SqlServer": "7.0.10",
           "Microsoft.EntityFrameworkCore.Sqlite": "6.0.21",
@@ -655,7 +657,7 @@
       "Microsoft.AspNet.WebApi.Client/5.2.9": {
         "dependencies": {
           "Newtonsoft.Json": "13.0.3",
-          "Newtonsoft.Json.Bson": "1.0.1"
+          "Newtonsoft.Json.Bson": "1.0.2"
         },
         "runtime": {
           "lib/netstandard2.0/System.Net.Http.Formatting.dll": {
@@ -726,6 +728,31 @@
           "lib/net6.0/Microsoft.AspNetCore.Identity.UI.dll": {
             "assemblyVersion": "6.0.21.0",
             "fileVersion": "6.0.2123.36438"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.JsonPatch/7.0.11": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.7.0",
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.AspNetCore.JsonPatch.dll": {
+            "assemblyVersion": "7.0.11.0",
+            "fileVersion": "7.0.1123.42502"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Mvc.NewtonsoftJson/6.0.22": {
+        "dependencies": {
+          "Microsoft.AspNetCore.JsonPatch": "7.0.11",
+          "Newtonsoft.Json": "13.0.3",
+          "Newtonsoft.Json.Bson": "1.0.2"
+        },
+        "runtime": {
+          "lib/net6.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll": {
+            "assemblyVersion": "6.0.22.0",
+            "fileVersion": "6.0.2223.42415"
           }
         }
       },
@@ -1849,15 +1876,14 @@
           }
         }
       },
-      "Newtonsoft.Json.Bson/1.0.1": {
+      "Newtonsoft.Json.Bson/1.0.2": {
         "dependencies": {
-          "NETStandard.Library": "1.6.1",
           "Newtonsoft.Json": "13.0.3"
         },
         "runtime": {
-          "lib/netstandard1.3/Newtonsoft.Json.Bson.dll": {
+          "lib/netstandard2.0/Newtonsoft.Json.Bson.dll": {
             "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.1.20722"
+            "fileVersion": "1.0.2.22727"
           }
         }
       },
@@ -3535,6 +3561,20 @@
       "path": "microsoft.aspnetcore.identity.ui/6.0.21",
       "hashPath": "microsoft.aspnetcore.identity.ui.6.0.21.nupkg.sha512"
     },
+    "Microsoft.AspNetCore.JsonPatch/7.0.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-i3TITRzWt92b5NV30jRmPLpMW3XkUKwtiTMZlglYkfYxEtfD30Q2/1APIwmHNEd3DbGg3+9sGQFK0MA0KO9koQ==",
+      "path": "microsoft.aspnetcore.jsonpatch/7.0.11",
+      "hashPath": "microsoft.aspnetcore.jsonpatch.7.0.11.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Mvc.NewtonsoftJson/6.0.22": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-CVZatoGdeRlC74aw1lrg0+U49h1o+T23gcsFI/Xxmb+48+5cuoZawshSLLhpMeCxurIvmk6owfA+D6wvOvkn0g==",
+      "path": "microsoft.aspnetcore.mvc.newtonsoftjson/6.0.22",
+      "hashPath": "microsoft.aspnetcore.mvc.newtonsoftjson.6.0.22.nupkg.sha512"
+    },
     "Microsoft.AspNetCore.Razor.Language/6.0.0": {
       "type": "package",
       "serviceable": true,
@@ -4032,12 +4072,12 @@
       "path": "newtonsoft.json/13.0.3",
       "hashPath": "newtonsoft.json.13.0.3.nupkg.sha512"
     },
-    "Newtonsoft.Json.Bson/1.0.1": {
+    "Newtonsoft.Json.Bson/1.0.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-5PYT/IqQ+UK31AmZiSS102R6EsTo+LGTSI8bp7WAUqDKaF4wHXD8U9u4WxTI1vc64tYi++8p3dk3WWNqPFgldw==",
-      "path": "newtonsoft.json.bson/1.0.1",
-      "hashPath": "newtonsoft.json.bson.1.0.1.nupkg.sha512"
+      "sha512": "sha512-QYFyxhaABwmq3p/21VrZNYvCg3DaEoN/wUuw5nmfAf0X3HLjgupwhkEWdgfb9nvGAUIv3osmZoD3kKl4jxEmYQ==",
+      "path": "newtonsoft.json.bson/1.0.2",
+      "hashPath": "newtonsoft.json.bson.1.0.2.nupkg.sha512"
     },
     "NLog/5.2.4": {
       "type": "package",

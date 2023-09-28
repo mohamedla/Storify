@@ -105,7 +105,8 @@ namespace StorifyAPI
                     config.ReturnHttpNotAcceptable = true; // If client request non supported result format it return not acceptable insted of using json formatter
 
                 })
-                .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles)
+                .AddNewtonsoftJson()
+                //.AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles)
                 .AddXmlDataContractSerializerFormatters(); // support xml formatting
             #endregion
 
