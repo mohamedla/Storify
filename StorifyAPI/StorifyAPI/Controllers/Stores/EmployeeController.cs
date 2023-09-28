@@ -77,6 +77,12 @@ namespace StorifyAPI.Controllers.Stores
                 return BadRequest("Employee Is Empty");
             }
 
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Invalid Model State For The EmployeeCreateDTO Object");
+                return UnprocessableEntity(ModelState);
+            }
+
             var store = _repositoryManager.Store.GetStore(StoreId, false);
 
             if (store == null)
@@ -128,6 +134,12 @@ namespace StorifyAPI.Controllers.Stores
                 return BadRequest("Employee Is Empty");
             }
 
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Invalid Model State For The EmployeeUpdateDTO Object");
+                return UnprocessableEntity(ModelState);
+            }
+
             var store = _repositoryManager.Store.GetStore(StoreId, false);
 
             if (store == null)
@@ -175,7 +187,15 @@ namespace StorifyAPI.Controllers.Stores
 
             var employeeDTO = _mapper.Map<EmployeeUpdateDTO>(employee);
 
-            patchEmployeeDTO.ApplyTo(employeeDTO);
+            patchEmployeeDTO.ApplyTo(employeeDTO,ModelState);
+
+            TryValidateModel(employeeDTO);
+
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Invalid Model State For The Employee JsonPatchDocument Object");
+                return UnprocessableEntity(ModelState);
+            }
 
             _mapper.Map(employeeDTO, employee);
             _repositoryManager.Save();

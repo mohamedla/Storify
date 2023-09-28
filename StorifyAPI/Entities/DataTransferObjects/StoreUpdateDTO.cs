@@ -7,11 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entities.DataTransferObjects
 {
-    public class StoreUpdateDTO
+    public class StoreUpdateDTO : StoreManipulationDTO
     {
-        public string Code { get; set; }
-        public string GlobalName { get; set; }
-        public string LocalName { get; set; }
-        public IEnumerable<EmployeeCreateDTO>? Employees { get; set; }
     }
 }
