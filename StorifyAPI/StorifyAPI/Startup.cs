@@ -15,6 +15,7 @@ using Entities;
 using Contracts;
 using Repository;
 using StorifyAPI.Extensions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace StorifyAPI
 {
@@ -50,6 +51,9 @@ namespace StorifyAPI
 
             services.AddScoped<ILoggerManager, LoggerManager>(); // Configure Logger Service
             services.AddScoped<IRepositoryManager, RepositoryManager>(); // Add DI TO My Repositry Manager (Data Access Layer)
+
+            services.Configure<ApiBehaviorOptions>(option
+                => option.SuppressModelStateInvalidFilter = true);
 
             #endregion
 

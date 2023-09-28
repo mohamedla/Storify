@@ -82,6 +82,12 @@ namespace StorifyAPI.Controllers.Stores
                 return BadRequest("Store Is Empty");
             }
 
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Invalid Model State For The StoreCreateDTO Object");
+                return UnprocessableEntity(ModelState);
+            }
+
             var store = _mapper.Map<Store>(storeDTO);
 
             _repositoryManager.Store.CreateStore(store);
@@ -140,6 +146,12 @@ namespace StorifyAPI.Controllers.Stores
             {
                 _logger.LogError("Store Create DTO Object Sent from client is null");
                 return BadRequest("Store Is Empty");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Invalid Model State For The StoreCreateDTO Object");
+                return UnprocessableEntity(ModelState);
             }
 
             var store = _repositoryManager.Store.GetStore(id, true);
