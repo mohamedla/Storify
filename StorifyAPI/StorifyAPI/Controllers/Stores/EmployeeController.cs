@@ -5,6 +5,7 @@ using Entities.DataTransferObjects;
 using Entities.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using StorifyAPI.ActionFilters;
 
 namespace StorifyAPI.Controllers.Stores
 {
@@ -26,15 +27,10 @@ namespace StorifyAPI.Controllers.Stores
         }
 
         [HttpGet("")]
+        [ServiceFilter(typeof(ValidationStoreExistsAttribute))]
         public async Task<IActionResult> GetEmployeeForStoreAsync(Guid StoreId)
         {
-            var store = await _repositoryManager.Store.GetStoreAsync(StoreId, false);
-
-            if (store == null)
-            {
-                _logger.LogInfo($"No Store With Id : {StoreId} Exist In The Database");
-                return NotFound();
-            }
+            var store = HttpContext.Items["store"] as Store;
 
             var employees = await _repositoryManager.Employee.GetEmployeesAsync(StoreId, false);
             var employeesDTO = _mapper.Map<IEnumerable<EmployeeDTO>>(employees);
@@ -44,15 +40,10 @@ namespace StorifyAPI.Controllers.Stores
         }
 
         [HttpGet("{Id}", Name = "GetEmployeeForStore")]
+        [ServiceFilter(typeof(ValidationStoreExistsAttribute))]
         public async Task<IActionResult> GetEmployeeForStoreAsync(Guid StoreId, Guid Id)
         {
-            var store = await _repositoryManager.Store.GetStoreAsync(StoreId, false);
-
-            if (store == null)
-            {
-                _logger.LogInfo($"No Store With Id : {StoreId} Exist In The Database");
-                return NotFound();
-            }
+            var store = HttpContext.Items["store"] as Store;
 
             var employee = await _repositoryManager.Employee.GetEmployeeAsync(StoreId, Id, false);
             if (employee == null)
@@ -67,27 +58,11 @@ namespace StorifyAPI.Controllers.Stores
         }
 
         [HttpPost("")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ServiceFilter(typeof(ValidationStoreExistsAttribute))]
         public async Task<IActionResult> CreateEmployeeForStoreAsync(Guid StoreId, [FromBody] EmployeeCreateDTO employeeDTO)
         {
-            if (employeeDTO == null)
-            {
-                _logger.LogError("Employee Create DTO Object Sent from client is null");
-                return BadRequest("Employee Is Empty");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                _logger.LogError("Invalid Model State For The EmployeeCreateDTO Object");
-                return UnprocessableEntity(ModelState);
-            }
-
-            var store = await _repositoryManager.Store.GetStoreAsync(StoreId, false);
-
-            if (store == null)
-            {
-                _logger.LogInfo($"No Store With Id : {StoreId} Exist In The Database");
-                return NotFound();
-            }
+            var store = HttpContext.Items["store"] as Store;
 
             var employee = _mapper.Map<Employee>(employeeDTO);
 
@@ -100,22 +75,10 @@ namespace StorifyAPI.Controllers.Stores
         }
 
         [HttpDelete("{id}")]
+        [ServiceFilter(typeof(ValidationStoreEmployeeExistsAttribute))]
         public async Task<IActionResult> DeleteEmployeeAsync(Guid StoreId, Guid id)
         {
-            var store = await _repositoryManager.Store.GetStoreAsync(StoreId, false);
-
-            if (store == null)
-            {
-                _logger.LogInfo($"No Store With Id : {StoreId} Exist In The Database");
-                return NotFound("No Store Exist With This ID");
-            }
-
-            var employee = await _repositoryManager.Employee.GetEmployeeAsync(StoreId, id, false);
-            if (employee == null)
-            {
-                _logger.LogError($"No Employee with id: {id} found in DB");
-                return NotFound("No Employee Exist With This ID");
-            }
+            var employee = HttpContext.Items["employee"] as Employee;
 
             _repositoryManager.Employee.DeleteEmployee(employee);
             await _repositoryManager.SaveAsync();
@@ -124,34 +87,11 @@ namespace StorifyAPI.Controllers.Stores
         }
 
         [HttpPut("{id}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ServiceFilter(typeof(ValidationStoreEmployeeExistsAttribute))]
         public async Task<IActionResult> UpdateEmployeeForStoreAsync(Guid StoreId, Guid id, [FromBody] EmployeeUpdateDTO employeeDTO)
         {
-            if (employeeDTO == null)
-            {
-                _logger.LogError("Employee Create DTO Object Sent from client is null");
-                return BadRequest("Employee Is Empty");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                _logger.LogError("Invalid Model State For The EmployeeUpdateDTO Object");
-                return UnprocessableEntity(ModelState);
-            }
-
-            var store = await _repositoryManager.Store.GetStoreAsync(StoreId, false);
-
-            if (store == null)
-            {
-                _logger.LogInfo($"No Store With Id : {StoreId} Exist In The Database");
-                return NotFound();
-            }
-
-            var employee = await _repositoryManager.Employee.GetEmployeeAsync(StoreId, id, true);
-            if (store == null)
-            {
-                _logger.LogInfo($"No Employee With Id : {id} Exist In The Database");
-                return NotFound();
-            }
+            var employee = HttpContext.Items["employee"] as Employee;
 
             _mapper.Map(employeeDTO, employee);
             await _repositoryManager.SaveAsync();
@@ -160,6 +100,7 @@ namespace StorifyAPI.Controllers.Stores
         }
 
         [HttpPatch("{id}")]
+        [ServiceFilter(typeof(ValidationStoreEmployeeExistsAttribute))]
         public async Task<IActionResult> PartiallyUpdateEmployeeForStoreAsync(Guid StoreId, Guid id, [FromBody] JsonPatchDocument<EmployeeUpdateDTO> patchEmployeeDTO)
         {
             if (patchEmployeeDTO == null)
@@ -168,20 +109,7 @@ namespace StorifyAPI.Controllers.Stores
                 return BadRequest("Employee Is Empty"); 
             }
 
-            var store = await _repositoryManager.Store.GetStoreAsync(StoreId, false);
-
-            if (store == null)
-            {
-                _logger.LogInfo($"No Store With Id : {StoreId} Exist In The Database");
-                return NotFound();
-            }
-
-            var employee = await _repositoryManager.Employee.GetEmployeeAsync(StoreId, id, true);
-            if (store == null)
-            {
-                _logger.LogInfo($"No Employee With Id : {id} Exist In The Database");
-                return NotFound();
-            }
+            var employee = HttpContext.Items["employee"] as Employee;
 
             var employeeDTO = _mapper.Map<EmployeeUpdateDTO>(employee);
 
