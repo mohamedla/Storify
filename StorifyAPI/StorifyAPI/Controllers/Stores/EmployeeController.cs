@@ -116,5 +116,35 @@ namespace StorifyAPI.Controllers.Stores
 
             return NoContent();
         }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateEmployeeForStore(Guid StoreId, Guid id, [FromBody] EmployeeUpdateDTO employeeDTO)
+        {
+            if (employeeDTO == null)
+            {
+                _logger.LogError("Employee Create DTO Object Sent from client is null");
+                return BadRequest("Employee Is Empty");
+            }
+
+            var store = _repositoryManager.Store.GetStore(StoreId, false);
+
+            if (store == null)
+            {
+                _logger.LogInfo($"No Store With Id : {StoreId} Exist In The Database");
+                return NotFound();
+            }
+
+            var employee = _repositoryManager.Employee.GetEmployee(StoreId, id, true);
+            if (store == null)
+            {
+                _logger.LogInfo($"No Employee With Id : {id} Exist In The Database");
+                return NotFound();
+            }
+
+            _mapper.Map(employeeDTO, employee);
+            _repositoryManager.Save();
+
+            return NoContent();
+        }
     }
 }

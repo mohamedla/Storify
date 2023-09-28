@@ -132,5 +132,28 @@ namespace StorifyAPI.Controllers.Stores
 
             return NoContent();
         }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateStore( Guid id , [FromBody] StoreUpdateDTO storeDTO)
+        {
+            if (storeDTO == null)
+            {
+                _logger.LogError("Store Create DTO Object Sent from client is null");
+                return BadRequest("Store Is Empty");
+            }
+
+            var store = _repositoryManager.Store.GetStore(id, true);
+
+            if (store == null)
+            {
+                _logger.LogInfo($"No Store With Id : {id} Exist In The Database");
+                return NotFound();
+            }
+
+            _mapper.Map(storeDTO, store);
+            _repositoryManager.Save();
+
+            return NoContent();
+        }
     }
 }
