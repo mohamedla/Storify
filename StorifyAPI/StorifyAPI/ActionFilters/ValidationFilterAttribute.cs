@@ -26,7 +26,7 @@ namespace StorifyAPI.ActionFilters
             if(param == null) 
             {
                 _Logger.LogError($"Object sent from client is null. Controller: {controller},action: {action}");
-                context.Result = new BadRequestObjectResult($"Object is null. Controller:{ controller }, action: { action}");
+                context.Result = new BadRequestObjectResult($"Object is null");
                 return;
             }
 

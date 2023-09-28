@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Entities.RequestFeatuers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Contracts
         void CreateEmployeeForStore(Guid StoreId, Employee employee);
         void DeleteEmployee(Employee employee);
 
-        Task<IEnumerable<Employee>> GetEmployeesAsync(Guid StoreId, bool trackChanges);
+        Task<PagedList<Employee>> GetEmployeesAsync(Guid StoreId, EmployeeParameters employeeParameters, bool trackChanges);
         Task<Employee> GetEmployeeAsync(Guid StoreId, Guid Id, bool trackChanges);
     }
 }
