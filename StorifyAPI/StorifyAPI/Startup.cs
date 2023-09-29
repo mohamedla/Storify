@@ -54,9 +54,14 @@ namespace StorifyAPI
 
             services.AddScoped<ILoggerManager, LoggerManager>(); // Configure Logger Service
             services.AddScoped<IRepositoryManager, RepositoryManager>(); // Add DI TO My Repository Manager (Data Access Layer)
+
+            #region Validation Action Filters
             services.AddScoped<ValidationFilterAttribute>(); // Custom Action Filter To validate Model State
             services.AddScoped<ValidationStoreExistsAttribute>(); // Custom Action Filter To validate Store Exists in DB
-            services.AddScoped<ValidationStoreEmployeeExistsAttribute>(); // Custom Action Filter To validate Store Employee Exists in DB
+            services.AddScoped<ValidationStoreEmployeeExistsAttribute>(); // Custom Action Filter To validate Store Employee Exists in DB 
+            services.AddScoped<ValidationMTypeExistsAttribute>();
+            #endregion
+
             services.AddScoped<IDataShaper<EmployeeDTO>, DataShaper<EmployeeDTO>>(); // Data shaper for retrieving Employees data
 
             services.Configure<ApiBehaviorOptions>(option

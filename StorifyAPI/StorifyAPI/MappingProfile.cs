@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Entities.DataTransferObjects;
+using Entities.DataTransferObjects.Material;
 using Entities.Models;
+using Entities.Models.Material;
 
 namespace StorifyAPI
 {
@@ -9,16 +11,16 @@ namespace StorifyAPI
         public MappingProfile()
         {
             CreateMap<Store, StoreDTO>();
-
             CreateMap<StoreCreateDTO, Store>();
-
             CreateMap<StoreUpdateDTO, Store>();
 
             CreateMap<Employee, EmployeeDTO>();
-
             CreateMap<EmployeeCreateDTO, Employee>();
-
             CreateMap<EmployeeUpdateDTO, Employee>().ReverseMap();
+
+            CreateMap<MaterialType, MaterialTypeDTO>();
+            CreateMap<MaterialTypeCreateDTO, MaterialType>();
+            CreateMap<MaterialTypeUpdateDTO, MaterialType>();
         }
     }
 }

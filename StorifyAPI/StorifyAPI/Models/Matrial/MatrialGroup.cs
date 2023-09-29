@@ -12,7 +12,7 @@ namespace StorifyAPI.Models.Matrial
         [Column(name: "MTypeID")]
         [Required]
         public int TypeID { get; set; }
-        public virtual MatrialType? matrialType { get; set; }
+        public virtual MartialType? matrialType { get; set; }
         public virtual ICollection<MatrialItem>? matrialItems { get; set; }
     }
 }

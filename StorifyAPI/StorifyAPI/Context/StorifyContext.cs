@@ -10,7 +10,7 @@ namespace StorifyAPI.Context
     {
         public StorifyContext(DbContextOptions<StorifyContext> options) : base(options) { }
 
-        public virtual DbSet<MatrialType> matrialTypes { get; set; }
+        public virtual DbSet<MartialType> matrialTypes { get; set; }
         public virtual DbSet<MatrialGroup> matrialGroups { get; set; }
         public virtual DbSet<MatrialItem> matrialItems { get; set; }
         public virtual DbSet<MatrialUnit> matrialUnits { get; set; }
@@ -21,11 +21,11 @@ namespace StorifyAPI.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region Matrial Type
-            modelBuilder.Entity<MatrialType>()
+            modelBuilder.Entity<MartialType>()
                    .ToTable("MTypes")
                    .HasIndex(type => type.Code)
                    .IsUnique();
-            modelBuilder.Entity<MatrialType>()
+            modelBuilder.Entity<MartialType>()
                 .HasMany(type => type.matrialGroups)
                 .WithOne(group => group.matrialType);
             #endregion
