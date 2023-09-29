@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Entities.Models.Material;
 
 namespace Entities
 {
@@ -19,11 +20,18 @@ namespace Entities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            #region Config
             modelBuilder.ApplyConfiguration(new StoreConfiguration());
             modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
+            modelBuilder.ApplyConfiguration(new MaterialTypeConfiguration()); 
+            #endregion
 
             modelBuilder.Entity<Store>()
                 .HasIndex(s => s.Code)
+                .IsUnique();
+
+            modelBuilder.Entity<MaterialType>()
+                .HasIndex(t => t.Code)
                 .IsUnique();
 
             modelBuilder.Entity<Employee>()

@@ -8,113 +8,94 @@ using StorifyAPI.Context;
 using Microsoft.EntityFrameworkCore;
 using StorifyAPI.Models.Matrial;
 using StorifyAPI.Repositories.MatrialRepo;
+using Contracts;
+using AutoMapper;
+using Entities.Models.Material;
+using StorifyAPI.ActionFilters;
+using Entities.DataTransferObjects.Material;
 
-namespace StorifyAPI.Controllers.Matrial
+namespace StorifyAPI.Controllers.Material
 {
     [ApiController]
-    [Route("api/MatrialTypes")]
+    [Route("api/MaterialTypes")]
 
-    public class MatrialTypesController : ControllerBase
+    public class MaterialTypesController : ControllerBase
     {
-        private MTypeRepository _TypeRepository;
+        private readonly ILoggerManager _logger;
+        private readonly IRepositoryManager _repository;
+        private readonly IMapper _mapper;
 
-        public MatrialTypesController(StorifyContext context)
+        public MaterialTypesController(ILoggerManager logger, IRepositoryManager repository, IMapper mapper)
         {
-            _TypeRepository = new MTypeRepository(context);
+            _logger = logger;
+            _repository = repository;
+            _mapper = mapper;
         }
 
-        // GET -> api/MatrialTypes
+        // GET -> api/MaterialTypes
         [HttpGet("")]
         public async Task<IActionResult> GetTypes()
         {
-            try
-            {
-                return Ok(await _TypeRepository.GetAllAsync());
-            }
-            catch (Exception ex) {
-                return BadRequest(ex.Message);
-            }
+            var types = await _repository.MType.GetAllTypesAsync(false);
 
+            var typesDTO = _mapper.Map<IEnumerable<MaterialType>>(types);
+
+            return Ok(typesDTO);
         }
 
-        // GET -> api/MatrialTypes/{id}
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetTypeByID(int id)
+        // GET -> api/MaterialTypes/{id}
+        [HttpGet("{id}", Name = nameof(GetTypeByID))]
+        [ServiceFilter(typeof(ValidationMTypeExistsAttribute))]
+        public async Task<IActionResult> GetTypeByID(Guid id)
         {
-            try
-            {
-                var type = await _TypeRepository.GetByIdAsync(id);
-                if(type == null)
-                    return NotFound();
-                return Ok(type);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var type = HttpContext.Items["mType"] as MaterialType ;
+
+            var typesDTO = _mapper.Map<MaterialTypeDTO>(type);
+
+            return Ok(typesDTO);
         }
 
-        // Post -> api/MatrialTypes
+        // Post -> api/MaterialTypes
         [HttpPost("")]
-        public async Task<IActionResult> AddType([FromBody] MatrialType MType)
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> AddType([FromBody] MaterialTypeCreateDTO typeDTO)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            try
-            {
-                await _TypeRepository.AddAsync(ref MType);
-                return CreatedAtRoute("", new { id = MType.ID }, MType);
-            }
-            catch (Exception ex)
-            {
-                if (_TypeRepository.isCodeExist(MType.Code))
-                    return Conflict("The Code Already Exist");
-                return BadRequest(ex.Message);
-            }
+            var type = _mapper.Map<MaterialType>(typeDTO);
+
+            _repository.MType.CreateType(type);
+            await _repository.SaveAsync();
+
+            var returnType = _mapper.Map<MaterialTypeDTO>(type);
+
+            return CreatedAtRoute(nameof(GetTypeByID), new { id = returnType.Id }, returnType);
 
         }
 
-        // Put -> api/MatrialTypes/{id}
+        // Put -> api/MaterialTypes/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditType(int id, [FromBody] MatrialType MType)
+        [ServiceFilter(typeof(ValidationMTypeExistsAttribute))]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> EditType(Guid id, [FromBody] MaterialTypeUpdateDTO typeDTO)
         {
-            if (!_TypeRepository.isIDExist(id))
-                return NotFound("id Not Found");
+            var type = HttpContext.Items["mType"] as MaterialType;
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            _mapper.Map(typeDTO, type);
+            await _repository.SaveAsync();
 
-            try
-            {
-                await _TypeRepository.UpdateAsync(MType);
-                return CreatedAtRoute("", new { id = MType.ID }, MType);
-            }
-            catch (Exception ex)
-            {
-                if (_TypeRepository.isCodeExist(MType.Code))
-                    return Conflict("The Code Already Exist");
-                return BadRequest(ex.Message);
-            }
-
+            return NoContent();
         }
 
-        // Delete -> api/MatrialTypes/{id}
+        // Delete -> api/MaterialTypes/{id}
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTypeByID(int id)
+        [ServiceFilter(typeof(ValidationMTypeExistsAttribute))]
+        public async Task<IActionResult> DeleteTypeByID(Guid id)
         {
-            var type = await _TypeRepository.GetByIdAsync(id);
+            var type = HttpContext.Items["mType"] as MaterialType;
 
-            if (type == null)
-                return NotFound("No Type Match The ID");
-            try
-            {
-                await _TypeRepository.DeleteAsync(type);
-                return Ok("Type Removed");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            _repository.MType.DeleteType(type);
+            await _repository.SaveAsync();
+
+            return NoContent();
         }
     }
 }

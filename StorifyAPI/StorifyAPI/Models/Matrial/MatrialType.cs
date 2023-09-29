@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StorifyAPI.Models.Matrial
 {
-    public class MatrialType : Matrial
+    public class MartialType : Matrial
     {
         [Key]
         [Column(name: "MTypeID")]

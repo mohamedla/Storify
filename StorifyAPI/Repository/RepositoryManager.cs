@@ -13,6 +13,7 @@ namespace Repository
         private RepositoryContext _repositoryContext;
         private IStoreRepository _storeRepository;
         private IEmployeeRepository _employeeRepository;
+        private IMaterialTypeRepository _materialTypeRepository;
 
         public RepositoryManager(RepositoryContext repositoryContext)
         {
@@ -38,6 +39,17 @@ namespace Repository
                     _employeeRepository = new EmployeeRepository(_repositoryContext);
 
                 return _employeeRepository;
+            }
+        }
+
+        public IMaterialTypeRepository MType
+        {
+            get
+            {
+                if (_materialTypeRepository == null)
+                    _materialTypeRepository = new MaterialTypeRepository(_repositoryContext);
+
+                return _materialTypeRepository;
             }
         }
 

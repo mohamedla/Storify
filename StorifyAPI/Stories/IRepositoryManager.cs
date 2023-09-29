@@ -12,6 +12,8 @@ namespace Contracts
 
         IEmployeeRepository Employee { get; }
 
+        IMaterialTypeRepository MType { get; }
+
         void Save();
         Task SaveAsync();
 
