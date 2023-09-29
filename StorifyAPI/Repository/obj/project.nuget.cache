@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "cjOb1wPzf5j4BQgUi2tvm/RIYHHBpCP7T3jNhk0mKpZ6SW7PuiJHNOaN9jcqwgdNR0ZhG7+R0VoIh7wIjwX4yw==",
+  "dgSpecHash": "iGIxqMq5XG1vZ1yR7EtluiiFuXzP4bXOSTgDACc194VLP/Kr9VOOyEIysr+lVigqgE1XESRAD0vn2oo4zg95eg==",
   "success": true,
   "projectFilePath": "D:\\WorkSpace\\Repos\\GitHup\\Storify\\StorifyAPI\\Repository\\Repository.csproj",
   "expectedPackageFiles": [
@@ -15,6 +15,7 @@
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.0\\microsoft.extensions.logging.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.extensions.options\\7.0.0\\microsoft.extensions.options.7.0.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\system.linq.dynamic.core\\1.3.5\\system.linq.dynamic.core.1.3.5.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
   ],
   "logs": []

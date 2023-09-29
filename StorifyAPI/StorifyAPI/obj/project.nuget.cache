@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "RGbjaEX2dQEKBzqXwKBSI+VTfgQhy4e4Zyzm/J+MY/Br78+aQFOks0LZs3xHA8eMHkgKwytRsaNAGUgYR1FqYQ==",
+  "dgSpecHash": "y1M3iiP/D9+mZ8YQ3unUNQeF1nM9PaNH+u92+Fw6s1zLnwT72xtqlSA0nTur/ICE9YKRl5B1vDHKko/GvwPHnA==",
   "success": true,
   "projectFilePath": "D:\\WorkSpace\\Repos\\GitHup\\Storify\\StorifyAPI\\StorifyAPI\\StorifyAPI.csproj",
   "expectedPackageFiles": [
@@ -208,6 +208,7 @@
     "C:\\Users\\Administrator\\.nuget\\packages\\system.io.filesystem.primitives\\4.3.0\\system.io.filesystem.primitives.4.3.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\system.io.pipelines\\5.0.1\\system.io.pipelines.5.0.1.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\system.linq\\4.3.0\\system.linq.4.3.0.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\system.linq.dynamic.core\\1.3.5\\system.linq.dynamic.core.1.3.5.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\system.linq.expressions\\4.3.0\\system.linq.expressions.4.3.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\system.memory.data\\1.0.2\\system.memory.data.1.0.2.nupkg.sha512",

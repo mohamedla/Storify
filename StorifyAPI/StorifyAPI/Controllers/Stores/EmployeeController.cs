@@ -32,6 +32,9 @@ namespace StorifyAPI.Controllers.Stores
         [ServiceFilter(typeof(ValidationStoreExistsAttribute))]
         public async Task<IActionResult> GetEmployeeForStoreAsync(Guid StoreId, [FromQuery] EmployeeParameters employeeParameters)
         {
+            if (!employeeParameters.IsValidAgeRange)
+                return BadRequest("The Age Max Value is Less Than Min Value");
+
             var store = HttpContext.Items["store"] as Store;
 
             var employees = await _repositoryManager.Employee.GetEmployeesAsync(StoreId, employeeParameters, false);
