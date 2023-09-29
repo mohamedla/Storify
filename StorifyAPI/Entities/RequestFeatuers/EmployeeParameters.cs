@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entities.RequestFeatuers
 {
-    public class EmployeeParameters : RequesrParameters
+    public class EmployeeParameters : RequestParameters
     {
         public EmployeeParameters()
         {

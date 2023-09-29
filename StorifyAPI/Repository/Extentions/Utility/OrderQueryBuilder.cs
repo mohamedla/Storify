@@ -14,7 +14,7 @@ namespace Repository.Extentions.Utility
         {
             var orderParams = orderByString.Trim().Split(',');
 
-            var props = typeof(Employee).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            var props = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
             var orderBuilder = new StringBuilder();
 

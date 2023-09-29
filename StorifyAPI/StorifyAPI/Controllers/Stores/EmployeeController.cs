@@ -18,14 +18,15 @@ namespace StorifyAPI.Controllers.Stores
         private readonly IRepositoryManager _repositoryManager;
         private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
+        private readonly IDataShaper<EmployeeDTO> _dataShaper;
 
-        public EmployeeController(ILoggerManager logger, IRepositoryManager repositoryManager, IMapper mapper)
+        public EmployeeController(ILoggerManager logger, IRepositoryManager repositoryManager, IMapper mapper, IDataShaper<EmployeeDTO> dataShaper)
         {
 
             _logger = logger;
             _repositoryManager = repositoryManager;
             _mapper = mapper;
-
+            _dataShaper = dataShaper;
         }
 
         [HttpGet("")]
@@ -43,7 +44,7 @@ namespace StorifyAPI.Controllers.Stores
 
             var employeesDTO = _mapper.Map<IEnumerable<EmployeeDTO>>(employees);
 
-            return Ok(employeesDTO);
+            return Ok(_dataShaper.ShapeData(employeesDTO, employeeParameters.Fields));
 
         }
 
