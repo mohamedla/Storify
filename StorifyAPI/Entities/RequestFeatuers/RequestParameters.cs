@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entities.RequestFeatuers
 {
-    public abstract class RequesrParameters
+    public abstract class RequestParameters
     {
         const int maxPageSize = 50;
         public int PageNumber { get; set; } = 1;
@@ -27,5 +27,6 @@ namespace Entities.RequestFeatuers
         }
 
         public string OrderBy {  get; set; }
+        public string Fields {  get; set; }
     }
 }
