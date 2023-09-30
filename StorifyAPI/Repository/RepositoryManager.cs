@@ -1,10 +1,6 @@
 ﻿using Contracts;
 using Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Repository.Repositories.Materials;
 
 namespace Repository
 {
@@ -13,7 +9,10 @@ namespace Repository
         private RepositoryContext _repositoryContext;
         private IStoreRepository _storeRepository;
         private IEmployeeRepository _employeeRepository;
+        #region Material
         private IMaterialTypeRepository _materialTypeRepository;
+        private IMaterialGroupRepository _materialGroupRepository; 
+        #endregion
 
         public RepositoryManager(RepositoryContext repositoryContext)
         {
@@ -42,6 +41,7 @@ namespace Repository
             }
         }
 
+        #region Material Repos
         public IMaterialTypeRepository MType
         {
             get
@@ -52,6 +52,18 @@ namespace Repository
                 return _materialTypeRepository;
             }
         }
+
+        public IMaterialGroupRepository MGroup
+        {
+            get
+            {
+                if (_materialGroupRepository == null)
+                    _materialGroupRepository = new MaterialGroupRepository(_repositoryContext);
+
+                return _materialGroupRepository;
+            }
+        } 
+        #endregion
 
         public void Save() => _repositoryContext.SaveChanges();
 

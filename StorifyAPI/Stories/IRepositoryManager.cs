@@ -14,6 +14,8 @@ namespace Contracts
 
         IMaterialTypeRepository MType { get; }
 
+        IMaterialGroupRepository MGroup { get; }
+
         void Save();
         Task SaveAsync();
 

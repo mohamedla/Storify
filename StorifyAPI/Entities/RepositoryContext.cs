@@ -23,15 +23,22 @@ namespace Entities
             #region Config
             modelBuilder.ApplyConfiguration(new StoreConfiguration());
             modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
-            modelBuilder.ApplyConfiguration(new MaterialTypeConfiguration()); 
+            modelBuilder.ApplyConfiguration(new MaterialTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new MaterialGroupConfiguration());
+            #endregion
+
+            #region Material
+            modelBuilder.Entity<MaterialType>()
+                    .HasIndex(t => t.Code)
+                    .IsUnique();
+
+            modelBuilder.Entity<MaterialGroup>()
+                .HasIndex(g => g.Code)
+                .IsUnique(); 
             #endregion
 
             modelBuilder.Entity<Store>()
                 .HasIndex(s => s.Code)
-                .IsUnique();
-
-            modelBuilder.Entity<MaterialType>()
-                .HasIndex(t => t.Code)
                 .IsUnique();
 
             modelBuilder.Entity<Employee>()

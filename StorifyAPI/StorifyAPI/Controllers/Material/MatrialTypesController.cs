@@ -1,13 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using StorifyAPI.Context;
-using Microsoft.EntityFrameworkCore;
-using StorifyAPI.Models.Matrial;
-using StorifyAPI.Repositories.MatrialRepo;
 using Contracts;
 using AutoMapper;
 using Entities.Models.Material;
@@ -38,7 +29,7 @@ namespace StorifyAPI.Controllers.Material
         {
             var types = await _repository.MType.GetAllTypesAsync(false);
 
-            var typesDTO = _mapper.Map<IEnumerable<MaterialType>>(types);
+            var typesDTO = _mapper.Map<IEnumerable<MaterialTypeDTO>>(types);
 
             return Ok(typesDTO);
         }

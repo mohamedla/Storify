@@ -9,11 +9,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repository
+namespace Repository.Repositories.Materials
 {
     public class MaterialTypeRepository : RepositoryBase<MaterialType>, IMaterialTypeRepository
     {
-        public MaterialTypeRepository( RepositoryContext repositoryContext ) : base (repositoryContext)
+        public MaterialTypeRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         { }
 
         public void CreateType(MaterialType type)

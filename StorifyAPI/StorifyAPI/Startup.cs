@@ -60,6 +60,7 @@ namespace StorifyAPI
             services.AddScoped<ValidationStoreExistsAttribute>(); // Custom Action Filter To validate Store Exists in DB
             services.AddScoped<ValidationStoreEmployeeExistsAttribute>(); // Custom Action Filter To validate Store Employee Exists in DB 
             services.AddScoped<ValidationMTypeExistsAttribute>();
+            services.AddScoped<ValidationMGroupExistsAttribute>();
             #endregion
 
             services.AddScoped<IDataShaper<EmployeeDTO>, DataShaper<EmployeeDTO>>(); // Data shaper for retrieving Employees data

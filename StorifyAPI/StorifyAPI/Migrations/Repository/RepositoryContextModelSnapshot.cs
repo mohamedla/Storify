@@ -66,6 +66,76 @@ namespace StorifyAPI.Migrations.Repository
                         });
                 });
 
+            modelBuilder.Entity("Entities.Models.Material.MaterialGroup", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("MGroupId");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("NVARCHAR");
+
+                    b.Property<string>("GlobalName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("NVARCHAR");
+
+                    b.Property<string>("LocalName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("NVARCHAR");
+
+                    b.Property<Guid>("TypeId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("MTypeId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("MaterialGroup");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("496edaa7-2a6e-481d-b160-c4a2e7333b87"),
+                            Code = "Antibiotic",
+                            GlobalName = "Antibiotics",
+                            LocalName = "مضادات حيوية",
+                            TypeId = new Guid("496edaa7-b9eb-481d-b160-c4a2e7333b87")
+                        },
+                        new
+                        {
+                            Id = new Guid("c12bb473-7ef5-4d1b-aa11-ed60a12038b7"),
+                            Code = "Painkiller",
+                            GlobalName = "Painkillers",
+                            LocalName = "مسكنات",
+                            TypeId = new Guid("496edaa7-b9eb-481d-b160-c4a2e7333b87")
+                        },
+                        new
+                        {
+                            Id = new Guid("3374144b-9876-45ba-aa75-d9a836a7a441"),
+                            Code = "SparePart",
+                            GlobalName = "Spare Parts",
+                            LocalName = "قطع غيار",
+                            TypeId = new Guid("3374144b-ffdd-45ba-aa75-d9a836a7a441")
+                        },
+                        new
+                        {
+                            Id = new Guid("3374144b-ffdd-45ba-98ef-d9a836a7a441"),
+                            Code = "Raw",
+                            GlobalName = "Raw Materials",
+                            LocalName = "مواد خام",
+                            TypeId = new Guid("3374144b-ffdd-45ba-aa75-d9a836a7a441")
+                        });
+                });
+
             modelBuilder.Entity("Entities.Models.Material.MaterialType", b =>
                 {
                     b.Property<Guid>("Id")
@@ -173,6 +243,17 @@ namespace StorifyAPI.Migrations.Repository
                         .IsRequired();
 
                     b.Navigation("Store");
+                });
+
+            modelBuilder.Entity("Entities.Models.Material.MaterialGroup", b =>
+                {
+                    b.HasOne("Entities.Models.Material.MaterialType", "MaterialType")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MaterialType");
                 });
 
             modelBuilder.Entity("Entities.Models.Store", b =>
