@@ -62,6 +62,7 @@ namespace StorifyAPI
             services.AddScoped<ValidationMTypeExistsAttribute>();
             services.AddScoped<ValidationMGroupExistsAttribute>();
             services.AddScoped<ValidationMItemExistsAttribute>();
+            services.AddScoped<ValidationMUnitExistsAttribute>();
             #endregion
 
             services.AddScoped<IDataShaper<EmployeeDTO>, DataShaper<EmployeeDTO>>(); // Data shaper for retrieving Employees data

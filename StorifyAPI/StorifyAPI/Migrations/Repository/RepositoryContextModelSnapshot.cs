@@ -259,6 +259,66 @@ namespace StorifyAPI.Migrations.Repository
                         });
                 });
 
+            modelBuilder.Entity("Entities.Models.Material.MaterialUnit", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("MUnitId");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("NVARCHAR");
+
+                    b.Property<string>("GlobalName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("NVARCHAR");
+
+                    b.Property<string>("LocalName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("NVARCHAR");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.ToTable("MaterialUnit");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("496edaa7-76ea-481d-abcd-c4a2e7333b87"),
+                            Code = "Box",
+                            GlobalName = "Box ",
+                            LocalName = "علبة"
+                        },
+                        new
+                        {
+                            Id = new Guid("c12bb473-adfe-4d1b-2245-ed60a12038b7"),
+                            Code = "Bottle",
+                            GlobalName = "Bottle",
+                            LocalName = "زجاجة"
+                        },
+                        new
+                        {
+                            Id = new Guid("3374144b-1082-78ef-aa75-d9a836a7a441"),
+                            Code = "Each",
+                            GlobalName = "Each",
+                            LocalName = "وحدة"
+                        },
+                        new
+                        {
+                            Id = new Guid("3374144b-ad35-45ba-afed-d9a836a7a441"),
+                            Code = "Carton",
+                            GlobalName = "Carton",
+                            LocalName = "كارتونة"
+                        });
+                });
+
             modelBuilder.Entity("Entities.Models.Store", b =>
                 {
                     b.Property<Guid>("Id")
@@ -329,12 +389,17 @@ namespace StorifyAPI.Migrations.Repository
             modelBuilder.Entity("Entities.Models.Material.MaterialItem", b =>
                 {
                     b.HasOne("Entities.Models.Material.MaterialGroup", "MaterialGroup")
-                        .WithMany()
+                        .WithMany("MaterialItems")
                         .HasForeignKey("MGroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("MaterialGroup");
+                });
+
+            modelBuilder.Entity("Entities.Models.Material.MaterialGroup", b =>
+                {
+                    b.Navigation("MaterialItems");
                 });
 
             modelBuilder.Entity("Entities.Models.Material.MaterialType", b =>

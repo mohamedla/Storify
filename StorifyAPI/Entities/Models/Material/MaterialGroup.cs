@@ -18,5 +18,7 @@ namespace Entities.Models.Material
 
         public virtual MaterialType MaterialType { get; set; }
 
+        public virtual IEnumerable<MaterialItem>? MaterialItems { get; set; }
+
     }
 }
