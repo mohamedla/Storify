@@ -8,113 +8,96 @@ using StorifyAPI.Context;
 using Microsoft.EntityFrameworkCore;
 using StorifyAPI.Models.Matrial;
 using StorifyAPI.Repositories.MatrialRepo;
+using AutoMapper;
+using Contracts;
+using Entities.DataTransferObjects.Material;
+using StorifyAPI.ActionFilters;
+using Entities.Models.Material;
 
-namespace StorifyAPI.Controllers.Matrial
+namespace StorifyAPI.Controllers.Material
 {
     [ApiController]
-    [Route("api/MatrialUnits")]
+    [Route("api/MaterialUnits")]
 
-    public class MatrialUnitsController : ControllerBase
+    public class MaterialUnitsController : ControllerBase
     {
-        private MUnitRepository _unitRepository;
+        private readonly ILoggerManager _logger;
+        private readonly IRepositoryManager _repository;
+        private readonly IMapper _mapper;
 
-        public MatrialUnitsController (StorifyContext context)
+        public MaterialUnitsController(ILoggerManager logger, IRepositoryManager repository, IMapper mapper)
         {
-            _unitRepository = new MUnitRepository(context);
+            _logger = logger;
+            _repository = repository;
+            _mapper = mapper;
         }
 
-        // GET -> api/MatrialUnits
+        // GET -> api/MaterialUnits
         [HttpGet("")]
         public async Task<IActionResult> GetTypes()
         {
-            try
-            {
-                return Ok(await _unitRepository.GetAllAsync());
-            }
-            catch (Exception ex) {
-                return BadRequest(ex.Message);
-            }
+            var units = await _repository.MUnit.GetAllEntitiesAsync(false);
+
+            var unitsDTO = _mapper.Map<IEnumerable<MaterialUnitDTO>>(units);
+
+            return Ok(unitsDTO);
 
         }
 
-        // GET -> api/MatrialUnits/{id}
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetTypeByID(int id)
+        // GET -> api/MaterialUnits/{id}
+        [HttpGet("{id}", Name = nameof(GetUnitByID))]
+        [ServiceFilter(typeof(ValidationMUnitExistsAttribute))]
+        public async Task<IActionResult> GetUnitByID(Guid id)
         {
-            try
-            {
-                var type = await _unitRepository.GetByIdAsync(id);
-                if(type == null)
-                    return NotFound();
-                return Ok(type);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var unit = HttpContext.Items["mUnit"] as MaterialUnit;
+
+            var unitDTO = _mapper.Map<MaterialUnitDTO>(unit);
+
+            return Ok(unitDTO);
         }
 
-        // Post -> api/MatrialUnits
+        // Post -> api/MaterialUnits
         [HttpPost("")]
-        public async Task<IActionResult> AddType([FromBody] MatrialUnit MUnit)
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> AddType([FromBody] MaterialUnitCreateDTO unitDTO)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            try
-            {
-                await _unitRepository.AddAsync(ref MUnit);
-                return CreatedAtRoute("", new { id = MUnit.ID }, MUnit);
-            }
-            catch (Exception ex)
-            {
-                if (_unitRepository.isCodeExist(MUnit.Code))
-                    return Conflict("The Code Already Exist");
-                return BadRequest(ex.Message);
-            }
+            var unit = _mapper.Map<MaterialUnit>(unitDTO);
+
+            _repository.MUnit.CreateEntity(unit);
+            await _repository.SaveAsync();
+
+            var returnItem = _mapper.Map<MaterialUnitDTO>(unit);
+
+            return CreatedAtRoute(nameof(GetUnitByID), new { id = returnItem.Id }, returnItem);
 
         }
 
-        // Put -> api/MatrialUnits/{id}
+        // Put -> api/MaterialUnits/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditType(int id, [FromBody] MatrialUnit MUnit)
+        [ServiceFilter(typeof(ValidationMUnitExistsAttribute))]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> EditType(Guid id, [FromBody] MaterialUnitUpdateDTO unitDTO)
         {
-            if (!_unitRepository.isIDExist(id))
-                return NotFound("id Not Found");
+            var unit = HttpContext.Items["mUnit"] as MaterialUnit;
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            _mapper.Map(unitDTO, unit);
+            await _repository.SaveAsync();
 
-            try
-            {
-                await _unitRepository.UpdateAsync(MUnit);
-                return CreatedAtRoute("", new { id = MUnit.ID }, MUnit);
-            }
-            catch (Exception ex)
-            {
-                if (_unitRepository.isCodeExist(MUnit.Code))
-                    return Conflict("The Code Already Exist");
-                return BadRequest(ex.Message);
-            }
+            return NoContent();
 
         }
 
-        // Delete -> api/MatrialUnits/{id}
+        // Delete -> api/MaterialUnits/{id}
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTypeByID(int id)
+        [ServiceFilter(typeof(ValidationMUnitExistsAttribute))]
+        public async Task<IActionResult> DeleteTypeByID(Guid id)
         {
-            var type = await _unitRepository.GetByIdAsync(id);
+            var unit = HttpContext.Items["mUnit"] as MaterialUnit;
 
-            if (type == null)
-                return NotFound("No Unit Match The ID");
-            try
-            {
-                await _unitRepository.DeleteAsync(type);
-                return Ok("Unit Removed");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            _repository.MUnit.DeleteEntity(unit);
+            await _repository.SaveAsync();
+
+            return NoContent();
         }
     }
 }

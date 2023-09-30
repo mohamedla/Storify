@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.Configuration
+namespace Entities.Configuration.Material
 {
     public class MaterialGroupConfiguration : IEntityTypeConfiguration<MaterialGroup>
     {

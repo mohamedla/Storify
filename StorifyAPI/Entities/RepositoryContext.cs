@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Entities.Models.Material;
+using Entities.Configuration.Material;
 
 namespace Entities
 {
@@ -26,6 +27,7 @@ namespace Entities
             modelBuilder.ApplyConfiguration(new MaterialTypeConfiguration());
             modelBuilder.ApplyConfiguration(new MaterialGroupConfiguration());
             modelBuilder.ApplyConfiguration(new MaterialItemConfiguration());
+            modelBuilder.ApplyConfiguration(new MaterialUnitConfiguration());
             #endregion
 
             #region Material
@@ -39,6 +41,10 @@ namespace Entities
 
             modelBuilder.Entity<MaterialItem>()
                 .HasIndex(i => i.Code)
+                .IsUnique();
+
+            modelBuilder.Entity<MaterialUnit>()
+                .HasIndex(u => u.Code)
                 .IsUnique();
             #endregion
 
