@@ -1,13 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using StorifyAPI.Context;
-using Microsoft.EntityFrameworkCore;
-using StorifyAPI.Models.Matrial;
-using StorifyAPI.Repositories.MatrialRepo;
 using Contracts;
 using AutoMapper;
 using Entities.Models.Material;
@@ -36,9 +27,9 @@ namespace StorifyAPI.Controllers.Material
         [HttpGet("")]
         public async Task<IActionResult> GetTypes()
         {
-            var types = await _repository.MType.GetAllTypesAsync(false);
+            var types = await _repository.MType.GetAllEntitiesAsync(false);
 
-            var typesDTO = _mapper.Map<IEnumerable<MaterialType>>(types);
+            var typesDTO = _mapper.Map<IEnumerable<MaterialTypeDTO>>(types);
 
             return Ok(typesDTO);
         }
@@ -62,7 +53,7 @@ namespace StorifyAPI.Controllers.Material
         {
             var type = _mapper.Map<MaterialType>(typeDTO);
 
-            _repository.MType.CreateType(type);
+            _repository.MType.CreateEntity(type);
             await _repository.SaveAsync();
 
             var returnType = _mapper.Map<MaterialTypeDTO>(type);
@@ -92,7 +83,7 @@ namespace StorifyAPI.Controllers.Material
         {
             var type = HttpContext.Items["mType"] as MaterialType;
 
-            _repository.MType.DeleteType(type);
+            _repository.MType.DeleteEntity(type);
             await _repository.SaveAsync();
 
             return NoContent();

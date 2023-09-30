@@ -13,5 +13,7 @@ namespace Entities.Models.Material
         [Key, Column(name: "MTypeID")]
         public Guid Id { get; set; }
 
+        public virtual IEnumerable<MaterialGroup>? MaterialGroups { get; set; }
+
     }
 }

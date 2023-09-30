@@ -1,4 +1,6 @@
 ﻿using Contracts;
+using Entities.DataTransferObjects.Material;
+using Entities.Models.Material;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -19,18 +21,22 @@ namespace StorifyAPI.ActionFilters
         {
             var trackChanges = context.HttpContext.Request.Method.Equals("PUT");
 
-            var id = (Guid)context.ActionArguments["id"];
+            var idTmp = context.ActionArguments.SingleOrDefault(x => x.Key.ToString().Equals("id")).Value;
 
-            var store = await _repository.MType.GetTypeAsync(id, trackChanges);
+            var id = idTmp == null ? new Guid("00000000-0000-0000-0000-000000000000") : (Guid)idTmp;
 
-            if(store == null) 
+            var group = context.ActionArguments.SingleOrDefault(x => x.Key.ToString().Contains("groupDTO")).Value as MaterialGroupManipulationDTO;
+
+            var type = group == null ? await _repository.MType.GetEntityAsync(id, trackChanges) : await _repository.MType.GetEntityAsync(group.MTypeId, false);
+
+            if(type == null) 
             {
                 _Logger.LogError($"No Material Type With Id : {id} Exist In The Database");
-                context.Result = new NotFoundResult();
+                context.Result = new NotFoundObjectResult("No Material Type Found That Match Your Request");
             }
             else
             {
-                context.HttpContext.Items.Add("mType", store);
+                context.HttpContext.Items.Add("mType", type);
                 await next();
             }
             

@@ -66,6 +66,146 @@ namespace StorifyAPI.Migrations.Repository
                         });
                 });
 
+            modelBuilder.Entity("Entities.Models.Material.MaterialGroup", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("MGroupId");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("NVARCHAR");
+
+                    b.Property<string>("GlobalName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("NVARCHAR");
+
+                    b.Property<string>("LocalName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("NVARCHAR");
+
+                    b.Property<Guid>("MTypeId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("MTypeId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.HasIndex("MTypeId");
+
+                    b.ToTable("MaterialGroup");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("496edaa7-2a6e-481d-b160-c4a2e7333b87"),
+                            Code = "Antibiotic",
+                            GlobalName = "Antibiotics",
+                            LocalName = "مضادات حيوية",
+                            MTypeId = new Guid("496edaa7-b9eb-481d-b160-c4a2e7333b87")
+                        },
+                        new
+                        {
+                            Id = new Guid("c12bb473-7ef5-4d1b-aa11-ed60a12038b7"),
+                            Code = "Painkiller",
+                            GlobalName = "Painkillers",
+                            LocalName = "مسكنات",
+                            MTypeId = new Guid("496edaa7-b9eb-481d-b160-c4a2e7333b87")
+                        },
+                        new
+                        {
+                            Id = new Guid("3374144b-9876-45ba-aa75-d9a836a7a441"),
+                            Code = "SparePart",
+                            GlobalName = "Spare Parts",
+                            LocalName = "قطع غيار",
+                            MTypeId = new Guid("3374144b-ffdd-45ba-aa75-d9a836a7a441")
+                        },
+                        new
+                        {
+                            Id = new Guid("3374144b-ffdd-45ba-98ef-d9a836a7a441"),
+                            Code = "Raw",
+                            GlobalName = "Raw Materials",
+                            LocalName = "مواد خام",
+                            MTypeId = new Guid("3374144b-ffdd-45ba-aa75-d9a836a7a441")
+                        });
+                });
+
+            modelBuilder.Entity("Entities.Models.Material.MaterialItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("MItemId");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("NVARCHAR");
+
+                    b.Property<string>("GlobalName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("NVARCHAR");
+
+                    b.Property<string>("LocalName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("NVARCHAR");
+
+                    b.Property<Guid>("MGroupId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("MGroupId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.HasIndex("MGroupId");
+
+                    b.ToTable("MaterialItem");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("496edaa7-2a6e-481d-abcd-c4a2e7333b87"),
+                            Code = "Antibiotic",
+                            GlobalName = "Antibiotic",
+                            LocalName = "مضاد حيوي",
+                            MGroupId = new Guid("496edaa7-2a6e-481d-b160-c4a2e7333b87")
+                        },
+                        new
+                        {
+                            Id = new Guid("c12bb473-7ef5-4d1b-2245-ed60a12038b7"),
+                            Code = "Painkiller",
+                            GlobalName = "Painkiller",
+                            LocalName = "مسكن",
+                            MGroupId = new Guid("c12bb473-7ef5-4d1b-aa11-ed60a12038b7")
+                        },
+                        new
+                        {
+                            Id = new Guid("3374144b-9876-78ef-aa75-d9a836a7a441"),
+                            Code = "SparePart",
+                            GlobalName = "Spare Part",
+                            LocalName = "قطعة غيار",
+                            MGroupId = new Guid("3374144b-9876-45ba-aa75-d9a836a7a441")
+                        },
+                        new
+                        {
+                            Id = new Guid("3374144b-ad35-45ba-98ef-d9a836a7a441"),
+                            Code = "Raw",
+                            GlobalName = "Raw Material",
+                            LocalName = "مادة خام",
+                            MGroupId = new Guid("3374144b-ffdd-45ba-98ef-d9a836a7a441")
+                        });
+                });
+
             modelBuilder.Entity("Entities.Models.Material.MaterialType", b =>
                 {
                     b.Property<Guid>("Id")
@@ -173,6 +313,33 @@ namespace StorifyAPI.Migrations.Repository
                         .IsRequired();
 
                     b.Navigation("Store");
+                });
+
+            modelBuilder.Entity("Entities.Models.Material.MaterialGroup", b =>
+                {
+                    b.HasOne("Entities.Models.Material.MaterialType", "MaterialType")
+                        .WithMany("MaterialGroups")
+                        .HasForeignKey("MTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MaterialType");
+                });
+
+            modelBuilder.Entity("Entities.Models.Material.MaterialItem", b =>
+                {
+                    b.HasOne("Entities.Models.Material.MaterialGroup", "MaterialGroup")
+                        .WithMany()
+                        .HasForeignKey("MGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MaterialGroup");
+                });
+
+            modelBuilder.Entity("Entities.Models.Material.MaterialType", b =>
+                {
+                    b.Navigation("MaterialGroups");
                 });
 
             modelBuilder.Entity("Entities.Models.Store", b =>
