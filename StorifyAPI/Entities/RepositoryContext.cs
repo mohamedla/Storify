@@ -25,6 +25,7 @@ namespace Entities
             modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
             modelBuilder.ApplyConfiguration(new MaterialTypeConfiguration());
             modelBuilder.ApplyConfiguration(new MaterialGroupConfiguration());
+            modelBuilder.ApplyConfiguration(new MaterialItemConfiguration());
             #endregion
 
             #region Material
@@ -34,7 +35,11 @@ namespace Entities
 
             modelBuilder.Entity<MaterialGroup>()
                 .HasIndex(g => g.Code)
-                .IsUnique(); 
+                .IsUnique();
+
+            modelBuilder.Entity<MaterialItem>()
+                .HasIndex(i => i.Code)
+                .IsUnique();
             #endregion
 
             modelBuilder.Entity<Store>()

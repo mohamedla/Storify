@@ -21,11 +21,13 @@ namespace StorifyAPI.ActionFilters
         {
             var trackChanges = context.HttpContext.Request.Method.Equals("PUT");
 
-            var id = (Guid)context.ActionArguments["id"];
+            var idTmp = context.ActionArguments.SingleOrDefault(x => x.Key.ToString().Equals("id")).Value;
+
+            var id = idTmp == null ? new Guid("00000000-0000-0000-0000-000000000000") : (Guid)idTmp;
 
             var group = context.ActionArguments.SingleOrDefault(x => x.Key.ToString().Contains("groupDTO")).Value as MaterialGroupManipulationDTO;
 
-            var type = group == null ? await _repository.MType.GetTypeAsync(id, trackChanges) : await _repository.MType.GetTypeAsync(group.MTypeId, false);
+            var type = group == null ? await _repository.MType.GetEntityAsync(id, trackChanges) : await _repository.MType.GetEntityAsync(group.MTypeId, false);
 
             if(type == null) 
             {

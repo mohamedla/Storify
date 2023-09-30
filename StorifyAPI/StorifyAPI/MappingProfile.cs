@@ -25,6 +25,10 @@ namespace StorifyAPI
             CreateMap<MaterialGroup, MaterialGroupDTO>();
             CreateMap<MaterialGroupCreateDTO, MaterialGroup>();
             CreateMap<MaterialGroupUpdateDTO, MaterialGroup>();
+
+            CreateMap<MaterialItem, MaterialItemDTO>();
+            CreateMap<MaterialItemCreateDTO, MaterialItem>();
+            CreateMap<MaterialItemUpdateDTO, MaterialItem>();
         }
     }
 }

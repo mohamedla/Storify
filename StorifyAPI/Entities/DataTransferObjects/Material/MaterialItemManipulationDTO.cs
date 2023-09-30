@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Entities.DataTransferObjects.Material
+{
+    public class MaterialItemManipulationDTO : EntityDTO
+    {
+        [Required(ErrorMessage = "Material Item Need To Be Linked To a Group")]
+        public Guid MGroupId { get; set; }
+    }
+}

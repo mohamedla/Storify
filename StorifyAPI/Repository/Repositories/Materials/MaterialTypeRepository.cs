@@ -1,4 +1,4 @@
-﻿using Contracts;
+﻿using Contracts.Material;
 using Entities;
 using Entities.Models;
 using Entities.Models.Material;
@@ -16,22 +16,22 @@ namespace Repository.Repositories.Materials
         public MaterialTypeRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         { }
 
-        public void CreateType(MaterialType type)
+        public void CreateEntity(MaterialType type)
             => Create(type);
 
-        public void DeleteType(MaterialType type)
-            => Delete(type);
+        public void DeleteEntity(MaterialType type)
+            => base.Delete(type);
 
-        public IEnumerable<MaterialType> GetAllTypes(bool trackChanges)
+        public IEnumerable<MaterialType> GetAllEntities(bool trackChanges)
             => FindAll(trackChanges).OrderBy(t => t.Code).ToList();
 
-        public async Task<IEnumerable<MaterialType>> GetAllTypesAsync(bool trackChanges)
+        public async Task<IEnumerable<MaterialType>> GetAllEntitiesAsync(bool trackChanges)
             => await FindAll(trackChanges).OrderBy(t => t.Code).ToListAsync();
 
-        public MaterialType GetType(Guid id, bool trackChanges)
+        public MaterialType GetEntity(Guid id, bool trackChanges)
             => FindByCondition(t => t.Id.Equals(id), trackChanges).SingleOrDefault();
 
-        public async Task<MaterialType> GetTypeAsync(Guid id, bool trackChanges)
+        public async Task<MaterialType> GetEntityAsync(Guid id, bool trackChanges)
             => await FindByCondition(t => t.Id.Equals(id), trackChanges).SingleOrDefaultAsync();
     }
 }

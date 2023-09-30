@@ -8,132 +8,99 @@ using StorifyAPI.Context;
 using Microsoft.EntityFrameworkCore;
 using StorifyAPI.Models.Matrial;
 using StorifyAPI.Repositories.MatrialRepo;
+using AutoMapper;
+using Contracts;
+using Entities.DataTransferObjects.Material;
+using StorifyAPI.ActionFilters;
+using Entities.Models.Material;
 
-namespace StorifyAPI.Controllers.Matrial
+namespace StorifyAPI.Controllers.Material
 {
     [ApiController]
-    [Route("api/MatrialItems")]
+    [Route("api/MaterialItems")]
 
-    public class MatrialItemsController : ControllerBase
+    public class MaterialItemsController : ControllerBase
     {
 
-        private MItemRepository _itemRepository;
+        private readonly ILoggerManager _logger;
+        private readonly IRepositoryManager _repository;
+        private readonly IMapper _mapper;
 
-        public MatrialItemsController(StorifyContext context)
+        public MaterialItemsController(ILoggerManager logger, IRepositoryManager repository, IMapper mapper)
         {
-            _itemRepository = new MItemRepository(context);
+            _logger = logger;
+            _repository = repository;
+            _mapper = mapper;
         }
 
-        // GET -> api/MatrialItems
+        // GET -> api/MaterialItems
         [HttpGet("")]
-        public async Task<IActionResult> GetGroups()
+        public async Task<IActionResult> GetItems()
         {
-            try
-            {
-                var groups = from g in await _itemRepository.GetAllAsync()
-                             select new
-                             {
-                                 g.ID,
-                                 g.Code,
-                                 g.GlobalName,
-                                 g.LocalName,
-                                 matrialType = new
-                                 {
-                                     g.matrialGroup.ID,
-                                     g.matrialGroup.GlobalName,
-                                     g.matrialGroup.LocalName
-                                 }
-                             };
-                return Ok(groups.ToList());
-            }
-            catch (Exception ex) {
-                return BadRequest(ex.Message);
-            }
+            var items = await _repository.MItem.GetAllEntitiesAsync(false);
+
+            var itemsDTO = _mapper.Map<IEnumerable<MaterialItemDTO>>(items);
+
+            return Ok(itemsDTO);
 
         }
 
-        // GET -> api/MatrialItems/{id}
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetGroupByID(int id)
+        // GET -> api/MaterialItems/{id}
+        [HttpGet("{id}", Name = nameof(GetItemByID))]
+        [ServiceFilter(typeof(ValidationMItemExistsAttribute))]
+        public async Task<IActionResult> GetItemByID(Guid id)
         {
-            try
-            {
-                var group = await _itemRepository.GetByIdAsync(id);
-                if (group == null) 
-                    return NotFound();
-                return Ok(group);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var item = HttpContext.Items["mItem"] as MaterialItem;
+
+            var itemDTO = _mapper.Map<MaterialItemDTO>(item);
+
+            return Ok(itemDTO);
         }
 
-        // Post -> api/MatrialItems
+        // Post -> api/MaterialItems
         [HttpPost("")]
-        public IActionResult AddGroup([FromBody] MatrialItem MGroup)
+        [ServiceFilter(typeof(ValidationMGroupExistsAttribute))]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> AddGroup([FromBody] MaterialItemCreateDTO itemDTO)
         {
-            
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            try
-            {
-                _itemRepository.AddAsync(ref MGroup);
-                return CreatedAtRoute("", new { id = MGroup.ID }, MGroup);
-            }
-            catch (Exception ex)
-            {
-                if (_itemRepository.isCodeExist(MGroup.Code))
-                    return Conflict("The Code Already Exist");
-                return BadRequest(ex);
-            }
+            var item = _mapper.Map<MaterialItem>(itemDTO);
+
+            _repository.MItem.CreateEntity(item);
+            await _repository.SaveAsync();
+
+            var returnItem = _mapper.Map<MaterialItemDTO>(item);
+
+            return CreatedAtRoute(nameof(GetItemByID), new { id = returnItem.Id }, returnItem);
 
         }
 
-        // Put -> api/MatrialItems/{id}
+        // Put -> api/MaterialItems/{id}
         [HttpPut("{id}")]
-        public IActionResult EditGroup(int id, [FromBody] MatrialItem MGroup)
+        [ServiceFilter(typeof(ValidationMItemExistsAttribute))]
+        [ServiceFilter(typeof(ValidationMGroupExistsAttribute))]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> EditGroup(Guid id, [FromBody] MaterialItemUpdateDTO itemDTO)
         {
-            if (id != MGroup.ID)
-                return BadRequest("URL ID Confict With Body ID");
+            var item = HttpContext.Items["mItem"] as MaterialItem;
 
-            if (!_itemRepository.isIDExist(id))
-                return NotFound("id Not Found");
+            _mapper.Map(itemDTO, item);
+            await _repository.SaveAsync();
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            try
-            {
-                _itemRepository.UpdateAsync(MGroup);
-                return CreatedAtRoute("", new { id = MGroup.ID }, MGroup);
-            }
-            catch (Exception ex)
-            {
-                if (_itemRepository.isCodeExist(MGroup.Code))
-                    return Conflict("The Code Already Exist");
-                return BadRequest(ex.Message);
-            }
+            return NoContent();
 
         }
 
-        // Delete -> api/MatrialItems/{id}
+        // Delete -> api/MaterialItems/{id}
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteGroupByID(int id)
+        [ServiceFilter(typeof(ValidationMItemExistsAttribute))]
+        public async Task<IActionResult> DeleteGroupByID(Guid id)
         {
-            var group = await _itemRepository.GetByIdAsync(id);
+            var item = HttpContext.Items["mItem"] as MaterialItem;
 
-            if (group == null)
-                return NotFound("No Item Match The ID");
-            try
-            {
-                await _itemRepository.DeleteAsync(group);
-                return Ok("Item Removed");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            _repository.MItem.DeleteEntity(item);
+            await _repository.SaveAsync();
+
+            return NoContent();
         }
     }
 }

@@ -29,7 +29,7 @@ namespace StorifyAPI.Controllers.Material
         [HttpGet("")]
         public async Task<IActionResult> GetGroups()
         {
-            var groups = await _repository.MGroup.GetAllGroupsAsync(false);
+            var groups = await _repository.MGroup.GetAllEntitiesAsync(false);
 
             var groupsDTO = _mapper.Map<IEnumerable<MaterialGroupDTO>>(groups);
 
@@ -57,7 +57,7 @@ namespace StorifyAPI.Controllers.Material
 
             var group = _mapper.Map<MaterialGroup>(groupDTO);
 
-            _repository.MGroup.CreateGroup(group);
+            _repository.MGroup.CreateEntity(group);
             await _repository.SaveAsync();
 
             var returnGroup = _mapper.Map<MaterialGroupDTO>(group);
@@ -89,7 +89,7 @@ namespace StorifyAPI.Controllers.Material
         {
             var group = HttpContext.Items["mGroup"] as MaterialGroup;
 
-            _repository.MGroup.DeleteGroup(group);
+            _repository.MGroup.DeleteEntity(group);
             await _repository.SaveAsync();
 
             return NoContent();

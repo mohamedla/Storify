@@ -1,4 +1,4 @@
-﻿using Contracts;
+﻿using Contracts.Material;
 using Entities;
 using Entities.Models;
 using Entities.Models.Material;
@@ -16,22 +16,22 @@ namespace Repository.Repositories.Materials
         public MaterialGroupRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         { }
 
-        public void CreateGroup(MaterialGroup group)
+        public void CreateEntity(MaterialGroup group)
             => Create(group);
 
-        public void DeleteGroup(MaterialGroup group)
+        public void DeleteEntity(MaterialGroup group)
             => Delete(group);
 
-        public IEnumerable<MaterialGroup> GetAllGroups(bool trackChanges)
+        public IEnumerable<MaterialGroup> GetAllEntities(bool trackChanges)
             => FindAll(trackChanges).OrderBy(g => g.MTypeId).OrderBy(g => g.Code).ToList();
 
-        public async Task<IEnumerable<MaterialGroup>> GetAllGroupsAsync(bool trackChanges)
+        public async Task<IEnumerable<MaterialGroup>> GetAllEntitiesAsync(bool trackChanges)
             => await FindAll(trackChanges).OrderBy(g => g.MTypeId).OrderBy(g => g.Code).ToListAsync();
 
-        public MaterialGroup GetGroup(Guid id, bool trackChanges)
+        public MaterialGroup GetEntity(Guid id, bool trackChanges)
             => FindByCondition(g => g.Id.Equals(id), trackChanges).SingleOrDefault();
 
-        public async Task<MaterialGroup> GetGroupAsync(Guid id, bool trackChanges)
+        public async Task<MaterialGroup> GetEntityAsync(Guid id, bool trackChanges)
             => await FindByCondition(g => g.Id.Equals(id), trackChanges).SingleOrDefaultAsync();
     }
 }
