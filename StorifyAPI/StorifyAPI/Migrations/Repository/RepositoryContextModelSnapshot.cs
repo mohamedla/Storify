@@ -206,6 +206,70 @@ namespace StorifyAPI.Migrations.Repository
                         });
                 });
 
+            modelBuilder.Entity("Entities.Models.Material.MaterialItemUnit", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("MItemUnitId");
+
+                    b.Property<decimal>("AveragePrice")
+                        .HasColumnType("Money");
+
+                    b.Property<int>("CFactor")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("MItemId");
+
+                    b.Property<decimal>("LastPrice")
+                        .HasColumnType("Money");
+
+                    b.Property<Guid>("UnitId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("MUnitId");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("Money");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UnitId");
+
+                    b.HasIndex("ItemId", "UnitId")
+                        .IsUnique();
+
+                    b.ToTable("MaterialItemUnit");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("496edaa7-98ce-e45d-90ae-c4a2e7333b87"),
+                            AveragePrice = 5m,
+                            CFactor = 7,
+                            IsMain = true,
+                            ItemId = new Guid("496edaa7-2a6e-481d-abcd-c4a2e7333b87"),
+                            LastPrice = 6m,
+                            UnitId = new Guid("c12bb473-adfe-4d1b-2245-ed60a12038b7"),
+                            UnitPrice = 12.5m
+                        },
+                        new
+                        {
+                            Id = new Guid("496edaa7-98ce-e45d-a34d-c4a2e7333b87"),
+                            AveragePrice = 5m,
+                            CFactor = 7,
+                            IsMain = false,
+                            ItemId = new Guid("496edaa7-2a6e-481d-abcd-c4a2e7333b87"),
+                            LastPrice = 6m,
+                            UnitId = new Guid("496edaa7-76ea-481d-abcd-c4a2e7333b87"),
+                            UnitPrice = 12.5m
+                        });
+                });
+
             modelBuilder.Entity("Entities.Models.Material.MaterialType", b =>
                 {
                     b.Property<Guid>("Id")
@@ -395,6 +459,25 @@ namespace StorifyAPI.Migrations.Repository
                         .IsRequired();
 
                     b.Navigation("MaterialGroup");
+                });
+
+            modelBuilder.Entity("Entities.Models.Material.MaterialItemUnit", b =>
+                {
+                    b.HasOne("Entities.Models.Material.MaterialItem", "MaterialItem")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entities.Models.Material.MaterialUnit", "MaterialUnit")
+                        .WithMany()
+                        .HasForeignKey("UnitId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MaterialItem");
+
+                    b.Navigation("MaterialUnit");
                 });
 
             modelBuilder.Entity("Entities.Models.Material.MaterialGroup", b =>

@@ -19,7 +19,9 @@ namespace StorifyAPI.ActionFilters
         {
             var trackChanges = context.HttpContext.Request.Method.Equals("PUT");
 
-            var id = (Guid)context.ActionArguments["id"];
+            var idTmp = context.ActionArguments.SingleOrDefault(x => x.Key.ToString().Equals("itemId")).Value;
+
+            var id = idTmp != null ? (Guid)idTmp : (Guid)context.ActionArguments["id"]; ;
 
             var item = await _repository.MItem.GetEntityAsync(id, trackChanges);
 
