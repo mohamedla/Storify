@@ -11,8 +11,8 @@ namespace Contracts.Material
     {
         IEnumerable<T> GetAllEntities(bool trackChanges);
         T GetEntity(Guid id, bool trackChanges);
-        void CreateEntity(T group);
-        void DeleteEntity(T group);
+        void CreateEntity(T material);
+        void DeleteEntity(T material);
 
         Task<IEnumerable<T>> GetAllEntitiesAsync(bool trackChanges);
         Task<T> GetEntityAsync(Guid id, bool trackChanges);

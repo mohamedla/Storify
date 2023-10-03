@@ -21,6 +21,8 @@ namespace Contracts
         IMaterialItemRepository MItem { get; } 
 
         IMaterialUnitRepository MUnit { get; }
+
+        IMaterialItemUnitRepository MItemUnit { get; }
         #endregion
 
         void Save();

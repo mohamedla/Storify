@@ -28,6 +28,7 @@ namespace Entities
             modelBuilder.ApplyConfiguration(new MaterialGroupConfiguration());
             modelBuilder.ApplyConfiguration(new MaterialItemConfiguration());
             modelBuilder.ApplyConfiguration(new MaterialUnitConfiguration());
+            modelBuilder.ApplyConfiguration(new MaterialItemUnitConfiguration());
             #endregion
 
             #region Material
@@ -45,6 +46,10 @@ namespace Entities
 
             modelBuilder.Entity<MaterialUnit>()
                 .HasIndex(u => u.Code)
+                .IsUnique();
+
+            modelBuilder.Entity<MaterialItemUnit>()
+                .HasIndex(iu => new { iu.ItemId, iu.UnitId})
                 .IsUnique();
             #endregion
 

@@ -34,7 +34,7 @@ namespace StorifyAPI.Controllers.Material
 
         // GET -> api/MaterialUnits
         [HttpGet("")]
-        public async Task<IActionResult> GetTypes()
+        public async Task<IActionResult> GetUnits()
         {
             var units = await _repository.MUnit.GetAllEntitiesAsync(false);
 

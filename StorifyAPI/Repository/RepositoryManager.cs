@@ -15,6 +15,7 @@ namespace Repository
         private IMaterialGroupRepository _materialGroupRepository; 
         private IMaterialItemRepository _materialItemRepository;
         private IMaterialUnitRepository _materialUnitRepository;
+        private IMaterialItemUnitRepository _materialItemUnitRepository;
         #endregion
 
         public RepositoryManager(RepositoryContext repositoryContext)
@@ -85,6 +86,17 @@ namespace Repository
                     _materialGroupRepository = new MaterialGroupRepository(_repositoryContext);
 
                 return _materialGroupRepository;
+            }
+        }
+
+        public IMaterialItemUnitRepository MItemUnit
+        {
+            get
+            {
+                if (_materialItemUnitRepository == null)
+                    _materialItemUnitRepository = new MaterialItemUnitRepository(_repositoryContext);
+
+                return _materialItemUnitRepository;
             }
         }
         #endregion
