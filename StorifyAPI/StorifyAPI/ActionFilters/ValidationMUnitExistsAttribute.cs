@@ -24,7 +24,7 @@ namespace StorifyAPI.ActionFilters
 
             var id = idTmp == null ? new Guid("00000000-0000-0000-0000-000000000000") : (Guid)idTmp;
 
-            var itemUnit = context.ActionArguments.SingleOrDefault(x => x.Key.ToString().Contains("itemUnitDTO")).Value as MaterialItemUnitManipulationDTO;
+            var itemUnit = context.ActionArguments.SingleOrDefault(x => x.Key.ToString().Contains("itemUnitDTO")).Value as MaterialItemUnitCreateDTO;
 
             var unit = itemUnit == null ? await _repository.MUnit.GetEntityAsync(id, trackChanges) : await _repository.MUnit.GetEntityAsync(itemUnit.UnitId, false);
 

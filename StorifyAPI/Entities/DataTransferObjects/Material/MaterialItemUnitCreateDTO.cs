@@ -9,7 +9,14 @@ using System.Threading.Tasks;
 
 namespace Entities.DataTransferObjects.Material
 {
-    public class MaterialItemUnitCreateDTO : MaterialItemUnitManipulationDTO
+    public class MaterialItemUnitCreateDTO
     {
+        [Required(ErrorMessage = "No Unit Selected"), ForeignKey(nameof(MaterialUnit))]
+        public Guid UnitId { get; set; }
+
+        public decimal? UnitPrice { get; set; }
+
+        [Required(ErrorMessage = "No Convert Convert Factor Determined")]
+        public int CFactor { get; set; }
     }
 }

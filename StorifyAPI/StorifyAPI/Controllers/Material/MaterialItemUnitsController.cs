@@ -68,24 +68,21 @@ namespace StorifyAPI.Controllers.Material
             if(itemUnitValidation != null) 
                 return BadRequest("The Item already has this Unit");
 
-            var mainItemUnit = _repository.MItemUnit.GetMainItemUnit(itemId, false);
-
-            if (mainItemUnit == null && !itemUnitDTO.IsMain)
-                return BadRequest("Item Has No Main Unit, Please Select One");
-
-            var isMain = itemUnitDTO.IsMain;
+            var itemUnits = await _repository.MItemUnit.GetAllUnitForItemAsync(itemId, false);
 
             var itemUnit = _mapper.Map<MaterialItemUnit>(itemUnitDTO);
 
-            itemUnit.IsMain = false;
+            // Frist inserted unit is the main and smallest unit and other unit be Greater 
+            if (itemUnits.Count() == 0)
+            {
+                itemUnit.IsMain = true;
+                itemUnit.CFactor = 1;
+            }
+
             _repository.MItemUnit.CreateItemUnit(itemId, itemUnit);
             await _repository.SaveAsync();
 
-            if (isMain && mainItemUnit != null)
-                _repository.MItemUnit.ChangeItemMainUnitAsync(itemId, itemUnit.UnitId);
-
-
-            var itemUnits = await _repository.MItemUnit.GetAllUnitForItemAsync(itemId, false);
+            itemUnits = await _repository.MItemUnit.GetAllUnitForItemAsync(itemId, false);
 
             var itemUnitsDTO = _mapper.Map<IEnumerable<MaterialItemUnitDTO>>(itemUnits);
 
@@ -93,38 +90,19 @@ namespace StorifyAPI.Controllers.Material
         }
 
         // Put -> api/MaterialItemUnits/{id}
-        [HttpPut("{id}")]
+        [HttpPut("{unitId}")]
         [ServiceFilter(typeof(ValidationMItemUnitExistsAttribute))]
-        public async Task<IActionResult> EditItemUnit(Guid itemId, Guid unitId, [FromBody] MaterialItemUnitUpdateDTO itemUnitDTO)
+        public async Task<IActionResult> EditItemUnitPrice(Guid itemId, Guid unitId, [FromBody] MaterialItemUnitUpdateDTO itemUnitDTO)
         {
-            var mainItemUnit = _repository.MItemUnit.GetMainItemUnit(itemId, true);
-
-            if (mainItemUnit == null)
-                return BadRequest("Item Has No Main Unit, Please Select One");
-
             var itemUnit = HttpContext.Items["mItemUnit"] as MaterialItemUnit;
 
-            if (itemUnit.IsMain && itemUnit.UnitPrice == decimal.MinValue)
-                return BadRequest();
-
-            var isMain = itemUnit.IsMain;
-
-            if (!isMain)
-            {
-                itemUnit.UnitPrice = mainItemUnit.UnitPrice * itemUnit.CFactor;
-                itemUnit.LastPrice = mainItemUnit.LastPrice * itemUnit.CFactor;
-                itemUnit.AveragePrice = mainItemUnit.AveragePrice * itemUnit.CFactor;
-                itemUnit.IsMain = false;
-            }
+            if(!itemUnit.IsMain)
+                return BadRequest("Can't Update Unit Price For Non Main Unit");
 
             _mapper.Map(itemUnitDTO, itemUnit);
             await _repository.SaveAsync();
 
-            if (isMain && itemUnit.UnitId != mainItemUnit.UnitId)
-                _repository.MItemUnit.ChangeItemMainUnitAsync(itemId, itemUnit.UnitId);
-
-            if(isMain && itemUnit.UnitId == mainItemUnit.UnitId && itemUnit.UnitPrice != mainItemUnit.UnitPrice)
-                _repository.MItemUnit.ChangeMainItemUnitPriceAsync(itemId, itemUnit.UnitId);
+            _repository.MItemUnit.ChangeMainItemUnitPriceAsync(itemId, itemUnit.UnitId);
 
             return NoContent();
 
