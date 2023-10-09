@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace Entities.DataTransferObjects.Material
 {
-    public class MaterialItemUnitUpdateDTO : MaterialItemUnitManipulationDTO
+    public class MaterialItemUnitUpdateDTO
     {
+        public decimal? UnitPrice { get; set; }
     }
 }

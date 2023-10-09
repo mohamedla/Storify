@@ -6,6 +6,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
@@ -34,11 +35,12 @@ namespace Repository.Repositories.Materials
         public async Task<int> ChangeMainItemUnitPriceAsync(Guid itemId, Guid unitId)
         {
             var param = new List<SqlParameter>();
-            param.Add(new SqlParameter("@ItemId", itemId));
-            param.Add(new SqlParameter("@Parameter", 2));
-            var result = await Task.Run(() => _repositoryContext.Database
-                .ExecuteSqlRawAsync(@"exec SP_ChangeItemMainUnit @ItemId, @Parameter", param.ToArray()));
-
+            param.Add(new SqlParameter("@ItemId", SqlDbType.UniqueIdentifier) { Value = itemId });
+            param.Add(new SqlParameter("@NewUnitId", SqlDbType.UniqueIdentifier) { Value = DBNull.Value });
+            param.Add(new SqlParameter("@Parameter", SqlDbType.Int) { Value = 2 });
+            var result = await _repositoryContext.Database
+                .ExecuteSqlRawAsync(@"exec SP_ChangeItemMainUnit @ItemId, @NewUnitId, @Parameter", param.ToArray());
+            _repositoryContext.Dispose();
             return result;
         }
 
