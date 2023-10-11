@@ -6,8 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using StorifyAPI.Context;
 using Microsoft.EntityFrameworkCore;
-using StorifyAPI.Models.Matrial;
-using StorifyAPI.Repositories.MatrialRepo;
 using AutoMapper;
 using Contracts;
 using Entities.DataTransferObjects.Material;
