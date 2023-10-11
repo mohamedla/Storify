@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using StorifyAPI.Context;
-using StorifyAPI.Models.Auth;
 using StorifyAPI.Models.Employee;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -12,13 +11,14 @@ using NLog;
 using Contracts;
 using LoggerService;
 using Entities;
-using Contracts;
 using Repository;
 using StorifyAPI.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using StorifyAPI.ActionFilters;
 using Entities.DataTransferObjects;
 using Repository.DataShaping;
+using Entities.Models.Identity;
+using Contracts.Material;
 
 namespace StorifyAPI
 {
@@ -40,7 +40,8 @@ namespace StorifyAPI
 
             services.AddSwaggerGen();
 
-            services.AddDbContext<StorifyContext>(option => option.UseSqlServer(_configuration.GetConnectionString("Storify") ?? throw new InvalidOperationException("Can't found Storify Connection String While Working With Store.")));
+            //Old Context replaced with RepositoryContext
+            //services.AddDbContext<StorifyContext>(option => option.UseSqlServer(_configuration.GetConnectionString("Storify") ?? throw new InvalidOperationException("Can't found Storify Connection String While Working With Store.")));
 
             services.AddDbContext<RepositoryContext>(options => options.UseSqlServer(_configuration.GetConnectionString("Storify") ?? throw new InvalidOperationException("Can't found Storify Connection String While Working With Repository."), 
                 b => b.MigrationsAssembly("StorifyAPI") ) );
@@ -77,7 +78,7 @@ namespace StorifyAPI
 
             services.AddDbContext<IdentityContext>(option => option.UseSqlServer(_configuration.GetConnectionString("Storify") ?? throw new InvalidOperationException("Can't found Storify Connection String While Working With Identity.")));
 
-            services.AddIdentity<StoreUser, IdentityRole>(
+            services.AddIdentity<User, IdentityRole>(
                 option =>
                 {
                     option.Password.RequireDigit = true;

@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StorifyAPI.ActionFilters;
 using StorifyAPI.Models.Auth;
 using StorifyAPI.Models.User.FormModels;
 
-namespace StorifyAPI.Controllers.User
+namespace StorifyAPI.Controllers.Authentications
 {
     [Route("api/authentication")]
     [ApiController]
@@ -12,7 +13,10 @@ namespace StorifyAPI.Controllers.User
         public AuthenticationController(IAuthenticationManager authManager) {
             _authManager = authManager;
         }
+
+
         [HttpPost("login")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Authenticate([FromBody] UserLoginForm user)
         {
             if (!await _authManager.ValidateUser(user))

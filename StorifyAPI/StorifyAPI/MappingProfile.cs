@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Entities.DataTransferObjects;
+using Entities.DataTransferObjects.Identity;
 using Entities.DataTransferObjects.Material;
 using Entities.Models;
+using Entities.Models.Identity;
 using Entities.Models.Material;
 
 namespace StorifyAPI
@@ -37,6 +39,8 @@ namespace StorifyAPI
             CreateMap<MaterialItemUnit, MaterialItemUnitDTO>();
             CreateMap<MaterialItemUnitCreateDTO, MaterialItemUnit>();
             CreateMap<MaterialItemUnitUpdateDTO, MaterialItemUnit>();
+
+            CreateMap<UserRegisterDTO, User>();
         }
     }
 }

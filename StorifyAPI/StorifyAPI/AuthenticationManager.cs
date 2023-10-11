@@ -1,32 +1,33 @@
-﻿using Humanizer;
+﻿using Contracts.Material;
+using Entities.DataTransferObjects.Identity;
+using Entities.Models.Identity;
+using Humanizer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using NuGet.Packaging.Signing;
-using StorifyAPI.Models.Employee;
-using StorifyAPI.Models.User.FormModels;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace StorifyAPI.Models.Auth
+namespace StorifyAPI
 {
     public class AuthenticationManager : IAuthenticationManager
     {
-        private readonly UserManager<StoreUser> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
 
-        private StoreUser _user;
+        private User _user;
 
-        public AuthenticationManager(UserManager<StoreUser> userManager, IConfiguration configuration)
+        public AuthenticationManager(UserManager<User> userManager, IConfiguration configuration)
         {
             _configuration = configuration;
             _userManager = userManager;
         }
 
-        public async Task<bool> ValidateUser(UserLoginForm userForAuth)
+        public async Task<bool> ValidateUser(UserAuthDTO AuthUser)
         {
-            _user = await _userManager.FindByNameAsync(userForAuth.UserName);
-            return (_user != null && await _userManager.CheckPasswordAsync(_user, userForAuth.Password));
+            _user = await _userManager.FindByNameAsync(AuthUser.UserName);
+            return _user != null && await _userManager.CheckPasswordAsync(_user, AuthUser.Password);
         }
 
         public async Task<string> CreateToken()
@@ -71,6 +72,6 @@ namespace StorifyAPI.Models.Auth
                 );
             return tokenOptions;
         }
-        
+
     }
 }

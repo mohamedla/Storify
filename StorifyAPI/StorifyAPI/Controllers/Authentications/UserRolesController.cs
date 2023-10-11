@@ -8,7 +8,7 @@ using StorifyAPI.Models.Employee;
 using StorifyAPI.Models.User.FormModels;
 using StorifyAPI.Repositories.UserRepo;
 
-namespace StorifyAPI.Controllers.User
+namespace StorifyAPI.Controllers.Authentications
 {
     [ApiController]
     [Route("api/UserRoles")]
