@@ -3,34 +3,34 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "MaterialSetup": {
+    "Storify": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
         }
       },
-      "root": "projects/material-setup",
-      "sourceRoot": "projects/material-setup/src",
+      "root": "projects/storify",
+      "sourceRoot": "projects/storify/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/material-setup",
-            "index": "projects/material-setup/src/index.html",
-            "main": "projects/material-setup/src/main.ts",
+            "outputPath": "dist/storify",
+            "index": "projects/storify/src/index.html",
+            "main": "projects/storify/src/main.ts",
             "polyfills": [
               "zone.js"
             ],
-            "tsConfig": "projects/material-setup/tsconfig.app.json",
+            "tsConfig": "projects/storify/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "projects/material-setup/src/favicon.ico",
-              "projects/material-setup/src/assets"
+              "projects/storify/src/favicon.ico",
+              "projects/storify/src/assets"
             ],
             "styles": [
-              "projects/material-setup/src/styles.scss"
+              "projects/storify/src/styles.scss"
             ],
             "scripts": []
           },
@@ -65,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "MaterialSetup:build:production"
+              "browserTarget": "Storify:build:production"
             },
             "development": {
-              "browserTarget": "MaterialSetup:build:development"
+              "browserTarget": "Storify:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +76,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "MaterialSetup:build"
+            "browserTarget": "Storify:build"
           }
         },
         "test": {
@@ -86,14 +86,14 @@
               "zone.js",
               "zone.js/testing"
             ],
-            "tsConfig": "projects/material-setup/tsconfig.spec.json",
+            "tsConfig": "projects/storify/tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "projects/material-setup/src/favicon.ico",
-              "projects/material-setup/src/assets"
+              "projects/storify/src/favicon.ico",
+              "projects/storify/src/assets"
             ],
             "styles": [
-              "projects/material-setup/src/styles.scss"
+              "projects/storify/src/styles.scss"
             ],
             "scripts": []
           }
